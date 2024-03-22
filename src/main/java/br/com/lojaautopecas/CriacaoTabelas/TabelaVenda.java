@@ -14,21 +14,18 @@ public class TabelaVenda {
     }
 
     public void criar() throws SQLException, SQLException {
-        String sql = "CREATE TABLE Venda (" +
+        String sql = "CREATE TABLE venda (" +
                 "id SERIAL PRIMARY KEY," +
                 "data DATE NOT NULL," +
-                "valor_Total DOUBLE NOT NULL," +
+                "valor_Total DOUBLE PRECISION NOT NULL," +
                 "id_Cliente INTEGER," +
                 "id_Funcionario INTEGER," +
-                "id_Veiculo INTEGER," +
                 "FOREIGN KEY (id_Cliente) REFERENCES Cliente(id)," +
-                "FOREIGN KEY (id_Funcionario) REFERENCES Funcionario(id)," +
-                "FOREIGN KEY (id_Veiculo) REFERENCES Veiculo(id)" +
+                "FOREIGN KEY (id_Funcionario) REFERENCES Funcionario(id)" +
                 ")";
         Statement stmt = conexao.createStatement();
         stmt.execute(sql);
         System.out.println("Tabela Venda criada com sucesso!");
         conexao.close();
     }
-
 }
