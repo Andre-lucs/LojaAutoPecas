@@ -1,4 +1,5 @@
 package br.com.lojaautopecas.CriacaoTabelas;
 
-public class TabelaServicoPeca {
+public class TabelaVendaPeca {
+
 }

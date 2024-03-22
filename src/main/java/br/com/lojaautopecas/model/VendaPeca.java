@@ -1,9 +1,9 @@
 package br.com.lojaautopecas.model;
 
-public class VendaServico {
-    private int id;
+public class VendaPeca {
+	private int id;
     private int id_Venda;
-    private int id_Servico;
+    private int id_Peca;
     
 	public int getId() {
 		return id;
@@ -17,12 +17,11 @@ public class VendaServico {
 	public void setId_Venda(int id_Venda) {
 		this.id_Venda = id_Venda;
 	}
-	public int getId_Servico() {
-		return id_Servico;
+	public int getId_Peca() {
+		return id_Peca;
 	}
-	public void setId_Servico(int id_Servico) {
-		this.id_Servico = id_Servico;
+	public void setId_Peca(int id_Peca) {
+		this.id_Peca = id_Peca;
 	}
-
     
 }
