@@ -16,15 +16,16 @@ public class DBConnection {
             final String senha = prop.getProperty("banco.senha");
 
             System.out.println("Conectado");
+            Class.forName("org.postgresql.Driver");
             return DriverManager.getConnection(url, usuario , senha);
-        }catch (SQLException | IOException e) {
+        }catch (SQLException | IOException | ClassNotFoundException e) {
             throw new RuntimeException(e);
         }
     }
 
     private static Properties getProperties() throws IOException {
         Properties prop = new Properties();
-        String caminho = "/conexao.properties";
+        String caminho = "/db.properties";
         prop.load(DBConnection.class.getResourceAsStream(caminho));
         return prop;
     }
