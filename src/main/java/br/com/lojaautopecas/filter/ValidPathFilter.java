@@ -10,7 +10,7 @@ import java.io.IOException;
 @WebFilter(filterName = "ValidPathFilter", urlPatterns = {"/*"})
 public class ValidPathFilter implements Filter {
     private final String[] validPaths = {
-            "/", "/index.html", "/main",
+            "/", "/index.html", "/error", "/main",
             "/login", "/login/submit", "/logout",
             "/venda", "/venda/create", "/venda/create/submit",
     };
@@ -32,7 +32,7 @@ public class ValidPathFilter implements Filter {
             Cookie cookie = new Cookie("login", "");
             cookie.setMaxAge(0);
             httpResp.addCookie(cookie);
-            ((HttpServletResponse) response).sendRedirect(httpReq.getContextPath()+"/login");//pagina de error
+            httpResp.sendRedirect(httpReq.getContextPath()+"/error?error=InvalidPath");//pagina de error
         }
     }
 
