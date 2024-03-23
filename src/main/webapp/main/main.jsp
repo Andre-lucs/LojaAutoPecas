@@ -13,15 +13,16 @@
     System.out.println(request.getAttribute("vendas"));
     List<Venda> vendas = (ArrayList<Venda>) request.getAttribute("vendas");
 %>
-<html>
+<html lang="pt-br">
 <head>
-    <title>Title</title>
-    <link rel="stylesheet" type="text/css" href="../resources/css/styles.css"/>
+    <meta charset="UTF-8">
+    <title>Vendas</title>
+    <link rel="stylesheet" type="text/css" href="resources/css/styles.css"/>
 </head>
 <body>
     <header>
         <nav>
-            <a href="">Vendas</a>
+            <a href="main">Vendas</a>
             <a href="">Clientes</a>
             <a href=""><img src="./resources/images/user.png" alt="user"></a>
             <button>Sair</button>
@@ -31,10 +32,8 @@
         <table>
             <thead>
             <th>
-                <h1>Tabela de Vendas</h1>
-            </th>
-            <th>
-                <button>Adicionar</button>
+                <b>Tabela de Vendas</b>
+                <a href="venda/create" class="button">Adicionar</a>
             </th>
             </thead>
             <tbody>

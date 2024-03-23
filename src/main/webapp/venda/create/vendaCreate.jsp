@@ -14,25 +14,22 @@
     clients.add("<NAME2>");
     request.setAttribute("clients", clients);
 %>
-<html>
+<html lang="pt-br">
 <head>
-    <title>Title</title>
+    <meta charset="UTF-8">
+    <title>Cadastrar Venda</title>
+    <link rel="stylesheet" type="text/css" href="../../resources/css/styles.css"/>
 </head>
 <body>
 <form name="formVenda" action="submit" >
     <h3>Cliente: </h3>
     <select title="selectClient" name="selectClient" required>
         <% for (int i = 0; i < clients.size(); i++) {%>
-            <option value="<%=String.valueOf(i)%>"><%=i%></option>
+            <option value="<%=String.valueOf(i)%>"><%=clients.get(i)%></option>
        <% }%>
     </select>
+    <input type="text" name="funcionarioId" value="" readonly>
     <a onclick="">Cadastrar Novo Cliente</a>
-    <h3>Escolher Veiculo: </h3>
-    <select title="selectVehicle" name="selectVehicle">
-        <% for (int i = 0; i < clients.size(); i++) {%>
-            <option value="<%=String.valueOf(i)%>"> <%=i%></option>
-       <% }%>
-    </select>
     <input type="submit" value="Cadastar">
 </form>
 </body>

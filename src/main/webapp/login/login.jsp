@@ -6,12 +6,15 @@
   To change this template use File | Settings | File Templates.
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
-<html>
+
+<html lang="pt-br">
 <head>
-    <title>Title</title>
+    <meta charset="UTF-8">
+    <title>Login</title>
+    <link rel="stylesheet" type="text/css" href="resources/css/styles.css"/>
 </head>
 <body>
-    <form name="formLogin" action="../functionaryLogin">
+    <form name="formLogin" action="login/submit">
         <input type="text" name="username" placeholder="Usuario" required/>
         <input type="text" name="password" placeholder="Senha" required/>
         <input type="submit" value="Login"/>
