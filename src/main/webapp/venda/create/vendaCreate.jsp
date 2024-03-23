@@ -1,4 +1,3 @@
-<%@ page import="java.util.ArrayList" %>
 <%@ page import="java.util.List" %>
 <%@ page import="java.util.Date" %>
 <%@ page import="java.util.TimeZone" %>
@@ -14,12 +13,10 @@
     List<Servico> servicos =  (List<Servico>) request.getAttribute("servicos");
     List<Peca> pecas = (List<Peca>) request.getAttribute("pecas");
 
-
     TimeZone tz = TimeZone.getTimeZone("UTC");
     DateFormat df = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm'Z'"); // Quoted "Z" to indicate UTC, no timezone offset
     df.setTimeZone(tz);
     String todayIso = df.format(new Date()).substring(0,10);
-
 %>
 <html lang="pt-br">
 <head>
