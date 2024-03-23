@@ -14,7 +14,7 @@ public class TabelaVendaServico {
     }
 
     public void criar() throws SQLException, SQLException {
-        String sql = "CREATE TABLE VendaServico (" +
+        String sql = "CREATE TABLE vendaServico (" +
                 "id SERIAL PRIMARY KEY," +
                 "id_Venda INTEGER NOT NULL," +
                 "id_Servico INTEGER NOT NULL," +

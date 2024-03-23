@@ -85,7 +85,7 @@ public class VendaDao {
 	            stmt.setDouble(2, novosDadosVenda.getValor_Total());
 	            stmt.setInt(3, novosDadosVenda.getId_Cliente());
 	            stmt.setInt(4, novosDadosVenda.getId_Funcionario());
-	            stmt.setInt(6, id); // Define o ID da venda a ser atualizada
+	            stmt.setInt(5, id); // Define o ID da venda a ser atualizada
 	            stmt.executeUpdate();
 	            System.out.println("Venda atualizada com sucesso!");
 	        } catch (SQLException e) {
