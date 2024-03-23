@@ -71,31 +71,60 @@ public class PecaDao {
     }
 
     public void atualizarPeca(int id, Peca novosDadosPeca) {
-        String sql = "UPDATE peca SET nome=?, preco=? WHERE id=?";
-        try {
-            PreparedStatement stmt = conexao.prepareStatement(sql);
-            stmt.setString(1, novosDadosPeca.getNome());
-            stmt.setDouble(2, novosDadosPeca.getPreco());
-            stmt.setInt(3, id);
-            stmt.executeUpdate();
-            stmt.close();
-            System.out.println("Peca atualizada com sucesso!");
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
+        if (buscarPecaPorId(id) != null) {
+            String sql = "UPDATE peca SET nome=?, preco=? WHERE id=?";
+            try {
+                PreparedStatement stmt = conexao.prepareStatement(sql);
+                stmt.setString(1, novosDadosPeca.getNome());
+                stmt.setDouble(2, novosDadosPeca.getPreco());
+                stmt.setInt(3, id);
+                stmt.executeUpdate();
+                stmt.close();
+                System.out.println("Peca atualizada com sucesso!");
+            } catch (SQLException e) {
+                throw new RuntimeException(e);
+            }
+        }
+        else {
+            System.out.println("Peca com o ID especificado não encontrado.");
         }
     }
 
 
     public void deletarPeca(int id) {
-        String sql = "DELETE FROM peca WHERE id=?";
-        try {
-            PreparedStatement stmt = conexao.prepareStatement(sql);
+        if (buscarPecaPorId(id) != null) {
+            String sql = "DELETE FROM peca WHERE id=?";
+            try {
+                PreparedStatement stmt = conexao.prepareStatement(sql);
+                stmt.setInt(1, id);
+                stmt.executeUpdate();
+                stmt.close();
+                System.out.println("Peca excluída com sucesso!");
+            } catch (SQLException e) {
+                throw new RuntimeException(e);
+            }
+        }
+        else {
+            System.out.println("Peca com o ID especificado não encontrado.");
+        }
+    }
+
+    public Peca buscarPecaPorId (int id) {
+        String sql = "SELECT * FROM peca WHERE id = ?";
+        try (PreparedStatement stmt = conexao.prepareStatement(sql)) {
             stmt.setInt(1, id);
-            stmt.executeUpdate();
-            stmt.close();
-            System.out.println("Peca excluída com sucesso!");
+            ResultSet rs = stmt.executeQuery();
+
+            if (rs.next()) {
+                Peca peca = new Peca();
+                peca.setId(rs.getInt("id"));
+                peca.setNome(rs.getString("nome"));
+                peca.setPreco(rs.getDouble("preco"));
+                return peca;
+            }
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
+        return null;
     }
   }
