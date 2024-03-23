@@ -73,28 +73,55 @@ public class ServicoDao {
 	    
 	    // Método para atualizar um serviço no banco
 	    public void atualizarServico(int id, Servico novosDadosServico) {
-	        String sql = "UPDATE servico SET descricao=?, preco=? WHERE id=?";
-	        try (PreparedStatement stmt = conexao.prepareStatement(sql)) {
-	            stmt.setString(1, novosDadosServico.getDescricao());
-	            stmt.setDouble(2, novosDadosServico.getPreco());
-	            stmt.setInt(3, id); // Define o ID do serviço a ser atualizado
-	            stmt.executeUpdate();
-	            System.out.println("Serviço atualizado com sucesso!");
-	        } catch (SQLException e) {
-	            throw new RuntimeException(e);
+	    	if (buscarServicoPorId(id) != null) {
+		        String sql = "UPDATE servico SET descricao=?, preco=? WHERE id=?";
+		        try (PreparedStatement stmt = conexao.prepareStatement(sql)) {
+		            stmt.setString(1, novosDadosServico.getDescricao());
+		            stmt.setDouble(2, novosDadosServico.getPreco());
+		            stmt.setInt(3, id); // Define o ID do serviço a ser atualizado
+		            stmt.executeUpdate();
+		            System.out.println("Serviço atualizado com sucesso!");
+		        } catch (SQLException e) {
+		            throw new RuntimeException(e);
+		        }
+	    	}else {
+	            System.out.println("Serviço com o ID especificado não encontrado.");
 	        }
 	    }
 	    
 	    // Método para deletar um serviço do banco
 	    public void deletarServico(int id) {
-	        String sql = "DELETE FROM servico WHERE id=?";
-	        try (PreparedStatement stmt = conexao.prepareStatement(sql)) {
-	            stmt.setInt(1, id);
-	            stmt.executeUpdate();
-	            System.out.println("Serviço excluído com sucesso!");
-	        } catch (SQLException e) {
-	            throw new RuntimeException(e);
+	    	if (buscarServicoPorId(id) != null) {
+		        String sql = "DELETE FROM servico WHERE id=?";
+		        try (PreparedStatement stmt = conexao.prepareStatement(sql)) {
+		            stmt.setInt(1, id);
+		            stmt.executeUpdate();
+		            System.out.println("Serviço excluído com sucesso!");
+		        } catch (SQLException e) {
+		            throw new RuntimeException(e);
+		        }
+	    	}else {
+	            System.out.println("Serviço com o ID especificado não encontrado.");
 	        }
 	    }
 	    
+	 // Método para buscar um serviço por ID
+	    public Servico buscarServicoPorId(int id) {
+	        String sql = "SELECT * FROM servico WHERE id = ?";
+	        try (PreparedStatement stmt = conexao.prepareStatement(sql)) {
+	            stmt.setInt(1, id);
+	            ResultSet rs = stmt.executeQuery();
+
+	            if (rs.next()) {
+	                Servico servico = new Servico();
+	                servico.setId(rs.getInt("id"));
+	                servico.setDescricao(rs.getString("descricao"));
+	                servico.setPreco(rs.getDouble("preco"));
+	                return servico;
+	            }
+	        } catch (SQLException e) {
+	            throw new RuntimeException(e);
+	        }
+	        return null; // Retorna null se nenhum serviço for encontrado com o ID especificado
+	    }
 }

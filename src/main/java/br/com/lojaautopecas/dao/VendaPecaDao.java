@@ -44,26 +44,24 @@ public class VendaPecaDao {
         }
     }
 
-    // Método para listar todas as relações Venda-Peça do banco
-    public List<VendaPeca> listarVendaPeca() {
-        List<VendaPeca> listaVendaPeca = new ArrayList<>();
-        String sql = "SELECT * FROM vendapeca";
-
-        try (PreparedStatement stmt = conexao.prepareStatement(sql);
-             ResultSet rs = stmt.executeQuery()) {
+ // Método para listar todos os registros de VendaPeca relacionados a uma venda específica
+    public List<VendaPeca> listarVendaPecasPorIdVenda(int idVenda) {
+        List<VendaPeca> vendaPecas = new ArrayList<>();
+        String sql = "SELECT * FROM VendaPeca WHERE id_Venda = ?";
+        try (PreparedStatement stmt = conexao.prepareStatement(sql)) {
+            stmt.setInt(1, idVenda);
+            ResultSet rs = stmt.executeQuery();
             while (rs.next()) {
                 VendaPeca vendaPeca = new VendaPeca();
                 vendaPeca.setId(rs.getInt("id"));
-                vendaPeca.setId_Venda(rs.getInt("id_venda"));
-                vendaPeca.setId_Peca(rs.getInt("id_peca"));
-
-                listaVendaPeca.add(vendaPeca);
+                vendaPeca.setId_Venda(rs.getInt("id_Venda"));
+                vendaPeca.setId_Peca(rs.getInt("id_Peca"));
+                vendaPecas.add(vendaPeca);
             }
         } catch (SQLException e) {
-            throw new RuntimeException("Erro ao listar as relações Venda-Peça: " + e.getMessage());
+            throw new RuntimeException("Erro ao listar os registros de VendaPeca por ID de venda", e);
         }
-        return listaVendaPeca;
-        
+        return vendaPecas;
     }
 
     // Método para atualizar uma relação Venda-Peça do banco

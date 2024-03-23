@@ -79,29 +79,59 @@ public class VendaDao {
 	    
 	 // Método para atualizar uma venda no banco
 	    public void atualizarVenda(Integer id, Venda novosDadosVenda) {
-	        String sql = "UPDATE venda SET data=?, valor_Total=?, id_Cliente=?, id_Funcionario=? WHERE id=?";
-	        try (PreparedStatement stmt = conexao.prepareStatement(sql)) {
-	            stmt.setDate(1, new java.sql.Date(novosDadosVenda.getData().getTime()));
-	            stmt.setDouble(2, novosDadosVenda.getValor_Total());
-	            stmt.setInt(3, novosDadosVenda.getId_Cliente());
-	            stmt.setInt(4, novosDadosVenda.getId_Funcionario());
-	            stmt.setInt(5, id); // Define o ID da venda a ser atualizada
-	            stmt.executeUpdate();
-	            System.out.println("Venda atualizada com sucesso!");
-	        } catch (SQLException e) {
-	            throw new RuntimeException(e);
+	    	if (buscarVendaPorId(id) != null) {
+		        String sql = "UPDATE venda SET data=?, valor_Total=?, id_Cliente=?, id_Funcionario=? WHERE id=?";
+		        try (PreparedStatement stmt = conexao.prepareStatement(sql)) {
+		            stmt.setDate(1, new java.sql.Date(novosDadosVenda.getData().getTime()));
+		            stmt.setDouble(2, novosDadosVenda.getValor_Total());
+		            stmt.setInt(3, novosDadosVenda.getId_Cliente());
+		            stmt.setInt(4, novosDadosVenda.getId_Funcionario());
+		            stmt.setInt(5, id); // Define o ID da venda a ser atualizada
+		            stmt.executeUpdate();
+		            System.out.println("Venda atualizada com sucesso!");
+		        } catch (SQLException e) {
+		            throw new RuntimeException(e);
+		        }
+	    	}else {
+	            System.out.println("Venda com o ID especificado não encontrado.");
 	        }
 	    }
 	    
 	 // Método para deletar uma venda do banco
 	    public void deletarVenda(Integer id) {
-	        String sql = "DELETE FROM venda WHERE id=?";
+	    	if (buscarVendaPorId(id) != null) {
+		        String sql = "DELETE FROM venda WHERE id=?";
+		        try (PreparedStatement stmt = conexao.prepareStatement(sql)) {
+		            stmt.setInt(1, id);
+		            stmt.executeUpdate();
+		            System.out.println("Venda excluída com sucesso!");
+		        } catch (SQLException e) {
+		            throw new RuntimeException(e);
+		        }
+	    	}else {
+	            System.out.println("Venda com o ID especificado não encontrado.");
+	        }
+	    }
+	    
+	 // Método para buscar uma venda por ID
+	    public Venda buscarVendaPorId(int id) {
+	        String sql = "SELECT * FROM Venda WHERE id = ?";
 	        try (PreparedStatement stmt = conexao.prepareStatement(sql)) {
 	            stmt.setInt(1, id);
-	            stmt.executeUpdate();
-	            System.out.println("Venda excluída com sucesso!");
+	            ResultSet rs = stmt.executeQuery();
+
+	            if (rs.next()) {
+	                Venda venda = new Venda();
+	                venda.setId(rs.getInt("id"));
+	                venda.setData(rs.getDate("data"));
+	                venda.setValor_Total(rs.getDouble("valor_Total"));
+	                venda.setId_Cliente(rs.getInt("id_Cliente"));
+	                venda.setId_Funcionario(rs.getInt("id_Funcionario"));
+	                return venda;
+	            }
 	        } catch (SQLException e) {
 	            throw new RuntimeException(e);
 	        }
+	        return null; // Retorna null se nenhuma venda for encontrada com o ID especificado
 	    }
 }
