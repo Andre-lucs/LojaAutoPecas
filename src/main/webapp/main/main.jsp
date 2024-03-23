@@ -21,32 +21,35 @@
     <link rel="stylesheet" type="text/css" href="resources/css/styles.css"/>
 </head>
 <body>
-    <!--<header>
-        <nav>
-            <a href="main">Vendas</a>
-            <a href="">Clientes</a>
-            <a href=""><img src="./resources/images/user.png" alt="user"></a>
-            <button>Sair</button>
-        </nav>
-    </header>-->
-    <customTag:header></customTag:header>
+    <customTag:header/>
     <div>
+        <!-- se der tempo https://www.w3schools.com/howto/howto_js_sort_table.asp -->
         <table>
-            <thead>
-            <th>
+            <div id="table-top">
                 <b>Tabela de Vendas</b>
                 <a href="venda/create" class="button">Adicionar</a>
-            </th>
+            </div>
+            <thead>
+                <th>ID</th>
+                <th>ID Funcionário</th>
+                <th>ID Cliente</th>
+                <th>Data</th>
+                <th>Valor Total</th>
             </thead>
             <tbody>
             <% for (Venda venda : vendas) {%>
-                <tr>
-                    <td><a href="venda?id=<%="venda.getId()"%>"> <%out.print("venda.getId()etc");%> </a></td>
+                <tr class="clickable" onclick="toVenda(<%=venda.getId()%>)" >
+                        <td><%=(venda.getId())%></td>
+                        <td><%=(venda.getId_Funcionario())%></td>
+                        <td><%=(venda.getId_Cliente())%></td>
+                        <td><%=venda.getData()%></td>
+                        <td><%=venda.getValor_Total()%></td>
                 </tr>
             <% }%>
             </tbody>
         </table>
 
     </div>
+<script type="text/javascript" src="resources/scripts/redirect.js"></script>
 </body>
 </html>

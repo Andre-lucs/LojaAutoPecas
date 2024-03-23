@@ -3,28 +3,16 @@
 <%@ page import="java.util.Date" %>
 <%@ page import="java.util.TimeZone" %>
 <%@ page import="java.text.DateFormat" %>
-<%@ page import="java.text.SimpleDateFormat" %><%--
-  Created by IntelliJ IDEA.
-  User: andre
-  Date: 22/03/2024
-  Time: 17:12
-  To change this template use File | Settings | File Templates.
---%>
+<%@ page import="java.text.SimpleDateFormat" %>
+<%@ page import="br.com.lojaautopecas.model.Cliente" %>
+<%@ page import="br.com.lojaautopecas.model.Servico" %>
+<%@ page import="br.com.lojaautopecas.model.Peca" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib prefix="customTag" uri="../../WEB-INF/CustomTags.tld" %>
 <%
-    List<String> clients = new ArrayList<>();
-    clients.add("<NAME>");
-    clients.add("<NAME1>");
-    clients.add("<NAME2>");
-    List<String> services = new ArrayList<>();
-    services.add("<NAME>");
-    services.add("<NAME1>");
-    services.add("<NAME2>");
-    List<String> pecas = new ArrayList<>();
-    pecas.add("<NAME>");
-    pecas.add("<NAME1>");
-    pecas.add("<NAME2>");
+    List<Cliente> clientes = (List<Cliente>) request.getAttribute("clientes");
+    List<Servico> servicos =  (List<Servico>) request.getAttribute("servicos");
+    List<Peca> pecas = (List<Peca>) request.getAttribute("pecas");
 
 
     TimeZone tz = TimeZone.getTimeZone("UTC");
@@ -44,8 +32,8 @@
 <form name="formVenda" action="submit" >
     <h3>Cliente: </h3>
     <select title="selectClient" name="selectClient" required>
-        <% for (int i = 0; i < clients.size(); i++) {%>
-            <option value="<%=String.valueOf(i)%>"><%=clients.get(i)%></option>
+        <% for (Cliente cliente : clientes) {%>
+            <option value="<%=cliente.getId()%>"><%=cliente.getNome()+" - "+cliente.getCpf()%></option>
        <% }%>
     </select>
     <a onclick="">Cadastrar Novo Cliente</a>
@@ -53,15 +41,15 @@
 
     <h3>Tipo do serviço:</h3>
     <select title="selectService" name="selectService" required>
-        <% for (int i = 0; i < services.size(); i++) {%>
-        <option value="<%=String.valueOf(i)%>"><%=services.get(i)%></option>
+        <% for (Servico servico : servicos) {%>
+        <option value="<%=servico.getId()%>"><%=servico.getDescricao()%></option>
         <% }%>
     </select>
 
     <h3>Escolher Peça: </h3>
     <select title="selectPeca" name="selectPeca" required>
-        <% for (int i = 0; i < pecas.size(); i++) {%>
-            <option value="<%=String.valueOf(i)%>"><%=pecas.get(i)%></option>
+        <% for (Peca peca : pecas) {%>
+            <option value="<%=peca.getId()%>"><%=peca.getNome()%></option>
        <% }%>
     </select>
 

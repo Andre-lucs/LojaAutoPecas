@@ -1,11 +1,12 @@
-<%--
-  Created by IntelliJ IDEA.
-  User: andre
-  Date: 22/03/2024
-  Time: 17:13
-  To change this template use File | Settings | File Templates.
---%>
+<%@ page import="br.com.lojaautopecas.model.Venda" %>
+<%@ page import="br.com.lojaautopecas.model.Cliente" %>
+<%@ page import="br.com.lojaautopecas.model.Funcionario" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%
+    Venda venda = (Venda) request.getAttribute("venda");
+    Cliente cliente = (Cliente) request.getAttribute("cliente");
+    Funcionario funcionario = (Funcionario) request.getAttribute("funcionario");
+%>
 <html lang="pt-br">
 <head>
     <meta charset="UTF-8">
@@ -20,7 +21,19 @@
     <div id="venda-info">
         <h2>Informações:</h2>
         <div>
-            Informaçoes da venda...
+            <span>ID: <%out.print(venda.getId());%></span>
+            <div>
+                <h3>Cliente:</h3>
+                <span>Nome: <%out.print(cliente.getNome());%></span>
+                <span>Nome: <%out.print(cliente.getCpf());%></span>
+            </div>
+            <div>
+                <h3>Funcionário:</h3>
+                <span>Nome: <%out.print(funcionario.getNome());%></span>
+                <span>CPF: <%out.print(funcionario.getCpf());%></span>
+            </div>
+            <span>Data: <%out.print(venda.getData());%></span>
+            <span>Valor Total: <%out.print(venda.getValor_Total());%></span>
         </div>
     </div>
     <div id="venda-servicos">
