@@ -17,8 +17,6 @@ public class TabelaCliente {
                 "id SERIAL PRIMARY KEY," +
                 "cpf VARCHAR(14) NOT NULL," +
                 "nome VARCHAR(100) NOT NULL," +
-                "telefone VARCHAR(20) NOT NULL," +
-                "email VARCHAR(100) NOT NULL," +
                 "id_Veiculo INTEGER" +
                 ")";
         Statement stmt = conexao.createStatement();

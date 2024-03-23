@@ -25,7 +25,7 @@ public class VeiculoDao {
 
         if (!tabelaVeiculoExiste()) {
             TabelaVeiculo tabelaVeiculo = new TabelaVeiculo();
-//            tabelaVeiculo.criar();
+            tabelaVeiculo.criar();
         }
 
         String sql = "INSERT INTO veiculo ( modelo, marca, ano) VALUES (?, ?, ?)";
