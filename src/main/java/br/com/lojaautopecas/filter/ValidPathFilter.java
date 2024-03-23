@@ -25,8 +25,9 @@ public class ValidPathFilter implements Filter {
         HttpServletRequest httpReq = (HttpServletRequest) request;
         HttpServletResponse httpResp = (HttpServletResponse) response;
         String path = httpReq.getServletPath();
-        System.out.println(path);
+        System.out.print(path);
         if (isValidPath(path) || path.startsWith("/resources/")) {
+            System.out.println(" passou");
             chain.doFilter(request, response);
         } else {
             Cookie cookie = new Cookie("login", "");
