@@ -5,12 +5,15 @@ import javax.servlet.http.*;
 import javax.servlet.annotation.*;
 import java.io.IOException;
 
-@WebServlet(urlPatterns = {"/login", "/login/submit", "/logout"})
+@WebServlet(urlPatterns = {"/index.html","/login", "/login/submit", "/logout"})
 public class LoginController extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         String action = request.getServletPath();
-        if(action.equals("/login")){
+        if(action.equals("/index.html")){
+          response.sendRedirect("login");
+        } else if(action.equals("/login")){
+            System.out.println("Login");
             request.getRequestDispatcher("login/login.jsp").forward(request, response);
         }else if(action.equals("/login/submit")){
             loginFunctionary(request, response);

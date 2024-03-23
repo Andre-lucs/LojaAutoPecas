@@ -38,8 +38,10 @@ public class VendaController extends HttpServlet {
 
     private void pageVendaCreate(HttpServletRequest request, HttpServletResponse response) {
         try {
-            response.sendRedirect("create/vendaCreate.jsp");
+            request.getRequestDispatcher("create/vendaCreate.jsp").forward(request,response);
         } catch (IOException e) {
+            throw new RuntimeException(e);
+        } catch (ServletException e) {
             throw new RuntimeException(e);
         }
     }
