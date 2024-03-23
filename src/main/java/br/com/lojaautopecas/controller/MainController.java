@@ -12,7 +12,7 @@ import java.util.List;
 
 @WebServlet(urlPatterns = {"/main"})
 public class MainController extends HttpServlet {
-    private VendaDao vendaDao = new VendaDao();
+    //private VendaDao vendaDao = new VendaDao();
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response){
         pageMain(request, response);
