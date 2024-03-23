@@ -30,10 +30,7 @@ public class ValidPathFilter implements Filter {
             System.out.println(" passou");
             chain.doFilter(request, response);
         } else {
-            Cookie cookie = new Cookie("login", "");
-            cookie.setMaxAge(0);
-            httpResp.addCookie(cookie);
-            httpResp.sendRedirect(httpReq.getContextPath()+"/error?error=InvalidPath");//pagina de error
+            httpResp.sendError(404);
         }
     }
 
