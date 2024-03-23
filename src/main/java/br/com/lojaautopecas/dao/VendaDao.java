@@ -35,9 +35,9 @@ public class VendaDao {
 	        }
 
 	        String sql = "INSERT INTO venda (data, valor_Total, id_Cliente, id_Funcionario) " +
-	                "VALUES (?, ?, ?, ?, ?)";
+	                "VALUES (?, ?, ?, ?)";
 	        try (PreparedStatement stmt = conexao.prepareStatement(sql)) {
-	            stmt.setDate(1, (java.sql.Date) new Date(venda.getData().getTime()));
+	            stmt.setDate(1, new java.sql.Date (venda.getData().getTime()));
 	            stmt.setDouble(2, venda.getValor_Total());
 	            stmt.setInt(3, venda.getId_Cliente());
 	            stmt.setInt(4, venda.getId_Funcionario());

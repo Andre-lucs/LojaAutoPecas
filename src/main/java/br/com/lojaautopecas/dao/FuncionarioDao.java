@@ -33,13 +33,13 @@ public class FuncionarioDao {
             tabelaFuncionario.criar();
         }
 
-        String sql = "INSERT INTO funcionario (cpf, nome, cargo, usuario, senha) " +
-                "VALUES (?, ?, ?, ?, ?)";
+        String sql = "INSERT INTO funcionario (cpf, nome, cargo, senha) " +
+                "VALUES (?, ?, ?, ?)";
         try (PreparedStatement stmt = conexao.prepareStatement(sql)) {
             stmt.setString(1, funcionario.getCpf());
             stmt.setString(2, funcionario.getNome());
             stmt.setString(3, funcionario.getCargo());
-            stmt.setString(5, funcionario.getSenha());
+            stmt.setString(4, funcionario.getSenha());
             stmt.executeUpdate();
             System.out.println("Funcionário inserido com sucesso!");
         } catch (SQLException e) {
@@ -75,48 +75,60 @@ public class FuncionarioDao {
 
     // Método para atualizar um funcionário no banco
     public void atualizarFuncionario(Integer id, Funcionario novoFuncionario) {
-        String sql = "UPDATE Funcionario SET cpf=?, nome=?, cargo=?, usuario=?, senha=? WHERE id=?";
-        try (PreparedStatement stmt = conexao.prepareStatement(sql)) {
-            stmt.setString(1, novoFuncionario.getCpf());
-            stmt.setString(2, novoFuncionario.getNome());
-            stmt.setString(3, novoFuncionario.getCargo());
-            stmt.setString(5, novoFuncionario.getSenha());
-            stmt.setInt(6, id);
-            stmt.executeUpdate();
-            System.out.println("Funcionário atualizado com sucesso!");
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
+    	// Verifica se o funcionário com o ID especificado existe antes de prosseguir
+        if (buscarFuncionarioPorId(id) != null) {
+        	 String sql = "UPDATE Funcionario SET cpf=?, nome=?, cargo=?, senha=? WHERE id=?";
+             try (PreparedStatement stmt = conexao.prepareStatement(sql)) {
+                 stmt.setString(1, novoFuncionario.getCpf());
+                 stmt.setString(2, novoFuncionario.getNome());
+                 stmt.setString(3, novoFuncionario.getCargo());
+                 stmt.setString(4, novoFuncionario.getSenha());
+                 stmt.setInt(5, id);
+                 stmt.executeUpdate();
+                 System.out.println("Funcionário atualizado com sucesso!");
+             } catch (SQLException e) {
+                 throw new RuntimeException(e);
+             }
+        } else {
+            System.out.println("Funcionário com o ID especificado não encontrado.");
         }
     }
 
     // Método para deletar um funcionário do banco
     public void deletarFuncionario(Integer id) {
-        String sql = "DELETE FROM Funcionario WHERE id=?";
-        try (PreparedStatement stmt = conexao.prepareStatement(sql)) {
-            stmt.setInt(1, id);
-            stmt.executeUpdate();
-            System.out.println("Funcionário excluído com sucesso!");
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
+    	if (buscarFuncionarioPorId(id) != null) {
+	        String sql = "DELETE FROM Funcionario WHERE id=?";
+	        try (PreparedStatement stmt = conexao.prepareStatement(sql)) {
+	            stmt.setInt(1, id);
+	            stmt.executeUpdate();
+	            System.out.println("Funcionário excluído com sucesso!");
+	        } catch (SQLException e) {
+	            throw new RuntimeException(e);
+	        }
+    	} else {
+            System.out.println("Funcionário com o ID especificado não encontrado.");
         }
     }
     
-    // Metodo que validará os dados de login do funcionario   
-    public boolean validarCpfSenha(String cpf, String senha) {
-        String sql = "SELECT senha FROM Funcionario WHERE cpf = ?";
+    // Metodo que validará os dados de login do funcionario
+    public int validarCpfSenha(String cpf, String senha) {
+        String sql = "SELECT id, senha FROM Funcionario WHERE cpf = ?";
         try (PreparedStatement stmt = conexao.prepareStatement(sql)) {
             stmt.setString(1, cpf);
             ResultSet rs = stmt.executeQuery();
 
             if (rs.next()) {
                 String senhaBanco = rs.getString("senha");
-                return senhaBanco.equals(senha);
+                if (senhaBanco.equals(senha)) {
+                    return rs.getInt("id"); // Retorna o ID se o CPF e a senha coincidirem
+                }
             }
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
-        return false;
+        return -1; // Retorna -1 se o CPF e a senha não forem validados
     }
+    
     
     // Metodo para buscar um funcionario por ID
     public Funcionario buscarFuncionarioPorId(int id) {
