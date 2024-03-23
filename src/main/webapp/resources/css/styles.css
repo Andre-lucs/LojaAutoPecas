@@ -104,7 +104,7 @@ th, td {
     text-align: left;
     border: 1px solid black;
 }
-th {
+#table-top {
     display: flex;
     flex-direction: row;
     justify-content: space-between;
@@ -134,4 +134,11 @@ tr:hover {
     font-size: 16px;
     margin: 4px 2px;
     cursor: pointer;
+}
+
+.clickable{
+    cursor: pointer;
+}
+.clickable:hover{
+    text-decoration: underline;
 }
