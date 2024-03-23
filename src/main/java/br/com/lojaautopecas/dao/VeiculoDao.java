@@ -2,6 +2,7 @@ package br.com.lojaautopecas.dao;
 
 import br.com.lojaautopecas.CriacaoTabelas.TabelaVeiculo;
 import br.com.lojaautopecas.jdbc.DBConnection;
+import br.com.lojaautopecas.model.Funcionario;
 import br.com.lojaautopecas.model.Veiculo;
 
 import java.sql.*;
@@ -28,7 +29,7 @@ public class VeiculoDao {
             tabelaVeiculo.criar();
         }
 
-        String sql = "INSERT INTO veiculo ( modelo, marca, ano) VALUES (?, ?, ?)";
+        String sql = "INSERT INTO veiculo (modelo, marca, ano) VALUES (?, ?, ?)";
 
         try {
             PreparedStatement stmt = conexao.prepareStatement(sql);
@@ -58,6 +59,7 @@ public class VeiculoDao {
                 veiculo.setModelo(rs.getString("modelo"));
                 veiculo.setMarca(rs.getString("marca"));
                 veiculo.setAno(rs.getInt("ano"));
+                veiculo.setId(rs.getInt("id"));
                 veiculos.add(veiculo);
                 System.out.println(veiculo.getModelo());
             }
@@ -70,24 +72,30 @@ public class VeiculoDao {
     }
 
     public void atualizarVeiculo(int id, Veiculo novosDadosVeiculo) {
-        String sql = "UPDATE veiculo SET modelo=?, marca=?, ano=? WHERE id=?";
-        try {
-            PreparedStatement stmt = conexao.prepareStatement(sql);
+        if (buscarVeiculoPorId(id) != null) {
+            String sql = "UPDATE veiculo SET modelo=?, marca=?, ano=? WHERE id=?";
+            try {
+                PreparedStatement stmt = conexao.prepareStatement(sql);
 
-            stmt.setString(1, novosDadosVeiculo.getModelo());
-            stmt.setString(2, novosDadosVeiculo.getMarca());
-            stmt.setInt(3, novosDadosVeiculo.getAno());
-            stmt.setInt(3, id);
-            stmt.executeUpdate();
-            stmt.close();
-            System.out.println("Veículo atualizado com sucesso!");
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
+                stmt.setString(1, novosDadosVeiculo.getModelo());
+                stmt.setString(2, novosDadosVeiculo.getMarca());
+                stmt.setInt(3, novosDadosVeiculo.getAno());
+                stmt.setInt(4, id);
+                stmt.executeUpdate();
+                stmt.close();
+                System.out.println("Veículo atualizado com sucesso!");
+            } catch (SQLException e) {
+                throw new RuntimeException(e);
+            }
+        } else {
+            System.out.println("Veículo com o ID especificado não encontrado.");
         }
+
     }
 
 
     public void deletarVeiculo(int id) {
+        if (buscarVeiculoPorId(id) != null) {
         String sql = "DELETE FROM veiculo WHERE id=?";
         try {
             PreparedStatement stmt = conexao.prepareStatement(sql);
@@ -98,6 +106,30 @@ public class VeiculoDao {
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
+    } else {
+        System.out.println("Veículo com o ID especificado não encontrado.");
     }
+    }
+
+    public Veiculo buscarVeiculoPorId(int id) {
+        String sql = "SELECT * FROM veiculo WHERE id = ?";
+        try (PreparedStatement stmt = conexao.prepareStatement(sql)) {
+            stmt.setInt(1, id);
+            ResultSet rs = stmt.executeQuery();
+
+            if (rs.next()) {
+                Veiculo veiculo = new Veiculo();
+                veiculo.setId(rs.getInt("id"));
+                veiculo.setModelo(rs.getString("modelo"));
+                veiculo.setMarca(rs.getString("marca"));
+                veiculo.setAno(rs.getInt("ano"));
+                return veiculo;
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+        return null;
+    }
+
 
 }

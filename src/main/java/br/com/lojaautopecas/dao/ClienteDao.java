@@ -34,8 +34,8 @@ public class ClienteDao {
         try {
             PreparedStatement stmt = conexao.prepareStatement(sql);
             stmt.setString(1, cliente.getCpf());
-            stmt.setString(1, cliente.getNome());
-            stmt.setInt(2, cliente.getId_Veiculo());
+            stmt.setString(2, cliente.getNome());
+            stmt.setInt(3, cliente.getId_Veiculo());
             stmt.execute();
             stmt.close();
 
@@ -72,33 +72,64 @@ public class ClienteDao {
     }
 
     public void atualizarCliente(int id, Cliente novosDadosCliente) {
-        String sql = "UPDATE cliente SET cpf=?, nome=?, id_cliente=? WHERE id=?";
-        try {
-            PreparedStatement stmt = conexao.prepareStatement(sql);
-            stmt.setString(1, novosDadosCliente.getCpf());
-            stmt.setString(2, novosDadosCliente.getNome());
-            stmt.setInt(3, novosDadosCliente.getId_Veiculo());
-            stmt.setInt(4, id);
-            stmt.executeUpdate();
-            stmt.close();
-            System.out.println("Cliente atualizado com sucesso!");
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
+        if (buscarClientePorId(id) != null) {
+            String sql = "UPDATE cliente SET cpf=?, nome=?, id_veiculo=? WHERE id=?";
+            try {
+                PreparedStatement stmt = conexao.prepareStatement(sql);
+                stmt.setString(1, novosDadosCliente.getCpf());
+                stmt.setString(2, novosDadosCliente.getNome());
+                stmt.setInt(3, novosDadosCliente.getId_Veiculo());
+                stmt.setInt(4, id);
+                stmt.executeUpdate();
+                stmt.close();
+                System.out.println("Cliente atualizado com sucesso!");
+            } catch (SQLException e) {
+                throw new RuntimeException(e);
+            }
         }
+        else {
+            System.out.println("Cliente com o ID especificado não encontrado.");
+        }
+
     }
 
 
     public void deletarCliente(int id) {
-        String sql = "DELETE FROM cliente WHERE id=?";
-        try {
-            PreparedStatement stmt = conexao.prepareStatement(sql);
+        if (buscarClientePorId(id) != null) {
+            String sql = "DELETE FROM cliente WHERE id=?";
+            try {
+                PreparedStatement stmt = conexao.prepareStatement(sql);
+                stmt.setInt(1, id);
+                stmt.executeUpdate();
+                stmt.close();
+                System.out.println("Cliente excluído com sucesso!");
+            } catch (SQLException e) {
+                throw new RuntimeException(e);
+            }
+        }
+        else {
+            System.out.println("Cliente com o ID especificado não encontrado.");
+        }
+    }
+
+    public Cliente buscarClientePorId (int id) {
+        String sql = "SELECT * FROM cliente WHERE id = ?";
+        try (PreparedStatement stmt = conexao.prepareStatement(sql)) {
             stmt.setInt(1, id);
-            stmt.executeUpdate();
-            stmt.close();
-            System.out.println("Cliente excluído com sucesso!");
+            ResultSet rs = stmt.executeQuery();
+
+            if (rs.next()) {
+                Cliente cliente = new Cliente();
+                cliente.setId(rs.getInt("id"));
+                cliente.setNome(rs.getString("nome"));
+                cliente.setCpf(rs.getString("cpf"));
+                cliente.setId_Veiculo(rs.getInt("id_veiculo"));
+                return cliente;
+            }
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
+        return null;
     }
 
 }
