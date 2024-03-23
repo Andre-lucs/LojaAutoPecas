@@ -13,7 +13,7 @@ public class TabelaCliente {
     }
 
     public void criar() throws SQLException {
-        String sql = "CREATE TABLE Cliente (" +
+        String sql = "CREATE TABLE cliente (" +
                 "id SERIAL PRIMARY KEY," +
                 "cpf VARCHAR(14) NOT NULL UNIQUE," +
                 "nome VARCHAR(100) NOT NULL," +

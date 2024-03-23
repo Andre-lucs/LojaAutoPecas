@@ -14,7 +14,6 @@ public class TabelaPeca {
     }
 
     public void criar() throws SQLException {
-        // SQL para criar a tabela Cliente
         String sql = "CREATE TABLE peca (" +
                 "id SERIAL PRIMARY KEY," +
                 "nome VARCHAR(100) NOT NULL," +

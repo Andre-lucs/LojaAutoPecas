@@ -98,19 +98,4 @@ public class PecaDao {
             throw new RuntimeException(e);
         }
     }
-
-    public static void main(String[] args) throws SQLException {
-        Peca peca = new Peca();
-
-//        String nomePecaAntiga = "Carburador";
-        peca.setNome("Filtro swww");
-        peca.setPreco(11.32);
-
-        PecaDao pecaDao = new PecaDao();
-
-        pecaDao.inserirPeca(peca);
-        pecaDao.listarPeca();
-//        pecaDao.atualizaPeca(peca, nomePecaAntiga);
-
-
-    }}
+  }

@@ -53,7 +53,7 @@ public class VendaDao {
 	    public List<Venda> listarVendas() {
 	        try {
 	            List<Venda> vendas = new ArrayList<>();
-	            String sql = "SELECT * FROM Venda ORDER BY id";
+	            String sql = "SELECT * FROM venda ORDER BY id";
 
 	            try (PreparedStatement stmt = conexao.prepareStatement(sql);
 	                 ResultSet rs = stmt.executeQuery()) {
@@ -79,7 +79,7 @@ public class VendaDao {
 	    
 	 // Método para atualizar uma venda no banco
 	    public void atualizarVenda(Integer id, Venda novosDadosVenda) {
-	        String sql = "UPDATE Venda SET data=?, valor_Total=?, id_Cliente=?, id_Funcionario=? WHERE id=?";
+	        String sql = "UPDATE venda SET data=?, valor_Total=?, id_Cliente=?, id_Funcionario=? WHERE id=?";
 	        try (PreparedStatement stmt = conexao.prepareStatement(sql)) {
 	            stmt.setDate(1, new java.sql.Date(novosDadosVenda.getData().getTime()));
 	            stmt.setDouble(2, novosDadosVenda.getValor_Total());
@@ -95,7 +95,7 @@ public class VendaDao {
 	    
 	 // Método para deletar uma venda do banco
 	    public void deletarVenda(Integer id) {
-	        String sql = "DELETE FROM Venda WHERE id=?";
+	        String sql = "DELETE FROM venda WHERE id=?";
 	        try (PreparedStatement stmt = conexao.prepareStatement(sql)) {
 	            stmt.setInt(1, id);
 	            stmt.executeUpdate();

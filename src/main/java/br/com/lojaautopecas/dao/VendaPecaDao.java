@@ -33,7 +33,7 @@ public class VendaPecaDao {
             TabelaVendaPeca tabelaVendaPeca = new TabelaVendaPeca();
             tabelaVendaPeca.criar();
         }
-        String sql = "INSERT INTO Venda_Peca (id_venda, id_peca) VALUES (?, ?)";
+        String sql = "INSERT INTO vendapeca (id_venda, id_peca) VALUES (?, ?)";
         try (PreparedStatement stmt = conexao.prepareStatement(sql)) {
             stmt.setInt(1, vendaPeca.getId_Venda());
             stmt.setInt(2, vendaPeca.getId_Peca());
@@ -47,7 +47,7 @@ public class VendaPecaDao {
     // Método para listar todas as relações Venda-Peça do banco
     public List<VendaPeca> listarVendaPeca() {
         List<VendaPeca> listaVendaPeca = new ArrayList<>();
-        String sql = "SELECT * FROM Venda_Peca";
+        String sql = "SELECT * FROM vendapeca";
 
         try (PreparedStatement stmt = conexao.prepareStatement(sql);
              ResultSet rs = stmt.executeQuery()) {
@@ -68,7 +68,7 @@ public class VendaPecaDao {
 
     // Método para atualizar uma relação Venda-Peça do banco
     public void atualizarVendaPeca(VendaPeca vendaPeca) {
-        String sql = "UPDATE Venda_Peca SET id_venda = ?, id_peca = ? WHERE id = ?";
+        String sql = "UPDATE vendapeca SET id_venda = ?, id_peca = ? WHERE id = ?";
         try (PreparedStatement stmt = conexao.prepareStatement(sql)) {
             stmt.setInt(1, vendaPeca.getId_Venda());
             stmt.setInt(2, vendaPeca.getId_Peca());
@@ -82,7 +82,7 @@ public class VendaPecaDao {
 
     // Método para deletar uma relação Venda-Peça do banco
     public void deletarVendaPeca(int id) {
-        String sql = "DELETE FROM Venda_Peca WHERE id = ?";
+        String sql = "DELETE FROM vendapeca WHERE id = ?";
         try (PreparedStatement stmt = conexao.prepareStatement(sql)) {
             stmt.setInt(1, id);
             stmt.executeUpdate();

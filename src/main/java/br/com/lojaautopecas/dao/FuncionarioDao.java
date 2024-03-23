@@ -51,7 +51,7 @@ public class FuncionarioDao {
     public List<Funcionario> listarFuncionarios() {
         try {
             List<Funcionario> funcionarios = new ArrayList<>();
-            String sql = "SELECT * FROM Funcionario ORDER BY id";
+            String sql = "SELECT * FROM funcionario ORDER BY id";
 
             try (PreparedStatement stmt = conexao.prepareStatement(sql);
                  ResultSet rs = stmt.executeQuery()) {
@@ -77,7 +77,7 @@ public class FuncionarioDao {
     public void atualizarFuncionario(Integer id, Funcionario novoFuncionario) {
     	// Verifica se o funcionário com o ID especificado existe antes de prosseguir
         if (buscarFuncionarioPorId(id) != null) {
-        	 String sql = "UPDATE Funcionario SET cpf=?, nome=?, cargo=?, senha=? WHERE id=?";
+        	 String sql = "UPDATE funcionario SET cpf=?, nome=?, cargo=?, senha=? WHERE id=?";
              try (PreparedStatement stmt = conexao.prepareStatement(sql)) {
                  stmt.setString(1, novoFuncionario.getCpf());
                  stmt.setString(2, novoFuncionario.getNome());
@@ -97,7 +97,7 @@ public class FuncionarioDao {
     // Método para deletar um funcionário do banco
     public void deletarFuncionario(Integer id) {
     	if (buscarFuncionarioPorId(id) != null) {
-	        String sql = "DELETE FROM Funcionario WHERE id=?";
+	        String sql = "DELETE FROM funcionario WHERE id=?";
 	        try (PreparedStatement stmt = conexao.prepareStatement(sql)) {
 	            stmt.setInt(1, id);
 	            stmt.executeUpdate();
@@ -112,7 +112,7 @@ public class FuncionarioDao {
     
     // Metodo que validará os dados de login do funcionario
     public int validarCpfSenha(String cpf, String senha) {
-        String sql = "SELECT id, senha FROM Funcionario WHERE cpf = ?";
+        String sql = "SELECT id, senha FROM funcionario WHERE cpf = ?";
         try (PreparedStatement stmt = conexao.prepareStatement(sql)) {
             stmt.setString(1, cpf);
             ResultSet rs = stmt.executeQuery();
@@ -132,7 +132,7 @@ public class FuncionarioDao {
     
     // Metodo para buscar um funcionario por ID
     public Funcionario buscarFuncionarioPorId(int id) {
-        String sql = "SELECT * FROM Funcionario WHERE id = ?";
+        String sql = "SELECT * FROM funcionario WHERE id = ?";
         try (PreparedStatement stmt = conexao.prepareStatement(sql)) {
             stmt.setInt(1, id);
             ResultSet rs = stmt.executeQuery();

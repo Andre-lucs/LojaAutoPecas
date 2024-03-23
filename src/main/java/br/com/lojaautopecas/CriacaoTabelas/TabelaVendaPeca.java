@@ -13,7 +13,7 @@ public class TabelaVendaPeca {
     }
 
     public void criar() throws SQLException {
-        String sql = "CREATE TABLE vendaPeca (" +
+        String sql = "CREATE TABLE vendapeca (" +
                 "id SERIAL PRIMARY KEY," +
                 "id_Venda INTEGER NOT NULL," +
                 "id_Peca INTEGER NOT NULL," +

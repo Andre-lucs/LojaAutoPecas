@@ -35,7 +35,7 @@ public class VendaServicoDao {
             TabelaVendaServico tabelaVendaServico = new TabelaVendaServico();
             tabelaVendaServico.criar();
         }
-        String sql = "INSERT INTO vendaServico (id_venda, id_servico) VALUES (?, ?)";
+        String sql = "INSERT INTO vendaservico (id_venda, id_servico) VALUES (?, ?)";
         try (PreparedStatement stmt = conexao.prepareStatement(sql)) {
             stmt.setInt(1, vendaServico.getId_Venda());
             stmt.setInt(2, vendaServico.getId_Servico());
@@ -46,31 +46,29 @@ public class VendaServicoDao {
         }
     }
 
-    // Método para listar todas as relações Venda-Servico do banco
-    public List<VendaServico> listarVendaServico() {
-        List<VendaServico> listaVendaServico = new ArrayList<>();
-        String sql = "SELECT * FROM Venda_Servico";
-
-        try (PreparedStatement stmt = conexao.prepareStatement(sql);
-             ResultSet rs = stmt.executeQuery()) {
+    // Método para listar todos os registros de VendaServico relacionados a uma venda específica
+    public List<VendaServico> listarVendaServicosPorIdVenda(int idVenda) {
+        List<VendaServico> vendaServicos = new ArrayList<>();
+        String sql = "SELECT * FROM vendaservico WHERE id_venda = ?";
+        try (PreparedStatement stmt = conexao.prepareStatement(sql)) {
+            stmt.setInt(1, idVenda);
+            ResultSet rs = stmt.executeQuery();
             while (rs.next()) {
                 VendaServico vendaServico = new VendaServico();
                 vendaServico.setId(rs.getInt("id"));
                 vendaServico.setId_Venda(rs.getInt("id_venda"));
                 vendaServico.setId_Servico(rs.getInt("id_servico"));
-
-                listaVendaServico.add(vendaServico);
+                vendaServicos.add(vendaServico);
             }
         } catch (SQLException e) {
-            throw new RuntimeException("Erro ao listar as relações Venda-Servico: " + e.getMessage());
+            throw new RuntimeException("Erro ao listar os registros de VendaServico por ID de venda", e);
         }
-
-        return listaVendaServico;
+        return vendaServicos;
     }
 
     // Método para atualizar uma relação Venda-Servico no banco
     public void atualizarVendaServico(int id, VendaServico novosDadosVendaServico) {
-        String sql = "UPDATE vendaServico SET id_venda=?, id_servico=? WHERE id=?";
+        String sql = "UPDATE vendaservico SET id_venda=?, id_servico=? WHERE id=?";
         try (PreparedStatement stmt = conexao.prepareStatement(sql)) {
             stmt.setInt(1, novosDadosVendaServico.getId_Venda());
             stmt.setInt(2, novosDadosVendaServico.getId_Servico());
@@ -84,7 +82,7 @@ public class VendaServicoDao {
 
     // Método para deletar uma relação Venda-Servico do banco
     public void deletarVendaServico(int id) {
-        String sql = "DELETE FROM vendaServico WHERE id=?";
+        String sql = "DELETE FROM vendaservico WHERE id=?";
         try (PreparedStatement stmt = conexao.prepareStatement(sql)) {
             stmt.setInt(1, id);
             stmt.executeUpdate();
