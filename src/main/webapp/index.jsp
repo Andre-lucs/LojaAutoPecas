@@ -1,6 +1,12 @@
 <?xml version="1.0" encoding="ISO-8859-1" ?>
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
     pageEncoding="ISO-8859-1"%>
+<%
+    //checar se já esta logado
+    //if(!logado) redirect login
+    //else redirect main
+    response.sendRedirect("login");
+%>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" xmlns:f="http://java.sun.com/jsf/core" xmlns:h="http://java.sun.com/jsf/html">
 <head>
@@ -8,8 +14,6 @@
 <title>Insert title here</title>
 </head>
 <body>
-<f:view>
-<h1>asda</h1>
-</f:view>
+
 </body>
 </html>
