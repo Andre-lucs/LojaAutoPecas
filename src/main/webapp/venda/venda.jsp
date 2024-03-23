@@ -13,8 +13,28 @@
     <link rel="stylesheet" type="text/css" href="resources/css/styles.css"/>
 </head>
 <body>
-    <a href="create">Cadastrar nova Venda</a>
+    <div id="venda-options">
+        <button>Excluir</button>
+        <button>Editar</button>
+    </div>
+    <div id="venda-info">
+        <h2>Informações:</h2>
+        <div>
+            Informaçoes da venda...
+        </div>
+    </div>
+    <div id="venda-servicos">
+        <h2>Serviços:</h2>
+        <div>
+            Lista dos serviços...
+        </div>
+    </div>
+    <div id="venda-pecas">
+        <h2>Peças:</h2>
+        <div>
+            Lista das peças...
+        </div>
+    </div>
 
-    <%//listar vendas(talvez apenas do funcionario)%>
 </body>
 </html>

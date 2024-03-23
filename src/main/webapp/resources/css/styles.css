@@ -44,7 +44,11 @@ a {
     color: #007bff;
     text-decoration: none;
 }
-
+header>nav{
+    display: flex;
+    flex-direction: row;
+    justify-content: right;
+}
 a:hover {
     text-decoration: underline;
 }

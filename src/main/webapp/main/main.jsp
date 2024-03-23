@@ -6,6 +6,7 @@
   To change this template use File | Settings | File Templates.
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ taglib prefix="customTag" uri="../WEB-INF/CustomTags.tld" %>
 <%@ page import="br.com.lojaautopecas.model.Venda"%>
 <%@ page import="java.util.List" %>
 <%@ page import="java.util.ArrayList" %>
@@ -20,14 +21,15 @@
     <link rel="stylesheet" type="text/css" href="resources/css/styles.css"/>
 </head>
 <body>
-    <header>
+    <!--<header>
         <nav>
             <a href="main">Vendas</a>
             <a href="">Clientes</a>
             <a href=""><img src="./resources/images/user.png" alt="user"></a>
             <button>Sair</button>
         </nav>
-    </header>
+    </header>-->
+    <customTag:header></customTag:header>
     <div>
         <table>
             <thead>
@@ -39,7 +41,7 @@
             <tbody>
             <% for (Venda venda : vendas) {%>
                 <tr>
-                    <td><%out.print("venda.getId()etc");%></td>
+                    <td><a href="venda?id=<%="venda.getId()"%>"> <%out.print("venda.getId()etc");%> </a></td>
                 </tr>
             <% }%>
             </tbody>
