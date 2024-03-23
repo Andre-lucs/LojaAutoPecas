@@ -18,8 +18,8 @@ public class TabelaVenda {
                 "id SERIAL PRIMARY KEY," +
                 "data DATE NOT NULL," +
                 "valor_Total DOUBLE PRECISION NOT NULL," +
-                "id_Cliente INTEGER," +
-                "id_Funcionario INTEGER," +
+                "id_Cliente INTEGER NOT NULL," +
+                "id_Funcionario INTEGER NOT NULL," +
                 "FOREIGN KEY (id_Cliente) REFERENCES Cliente(id)," +
                 "FOREIGN KEY (id_Funcionario) REFERENCES Funcionario(id)" +
                 ")";

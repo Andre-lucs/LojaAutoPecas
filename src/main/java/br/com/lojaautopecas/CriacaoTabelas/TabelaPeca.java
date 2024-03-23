@@ -18,7 +18,7 @@ public class TabelaPeca {
         String sql = "CREATE TABLE peca (" +
                 "id SERIAL PRIMARY KEY," +
                 "nome VARCHAR(100) NOT NULL," +
-                "preco DOUBLE PRECISION)";
+                "preco DOUBLE PRECISION NOT NULL)";
         Statement stmt = conexao.createStatement();
         stmt.execute(sql);
         System.out.println("Tabela Peça criada com sucesso!");

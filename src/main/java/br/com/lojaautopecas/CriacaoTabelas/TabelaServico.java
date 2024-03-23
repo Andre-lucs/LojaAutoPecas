@@ -17,7 +17,7 @@ public class TabelaServico {
         String sql = "CREATE TABLE Servico (" +
                 "id SERIAL PRIMARY KEY," +
                 "descricao VARCHAR(255) NOT NULL," +
-                "preco DOUBLE NOT NULL" +
+                "preco DOUBLE PRECISION NOT NULL" +
                 ")";
         Statement stmt = conexao.createStatement();
         stmt.execute(sql);
