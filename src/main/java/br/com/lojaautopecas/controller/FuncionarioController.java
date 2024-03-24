@@ -2,6 +2,7 @@ package br.com.lojaautopecas.controller;
 
 import java.io.IOException;
 import java.sql.SQLException;
+import java.util.List;
 
 import br.com.lojaautopecas.model.Cliente;
 import br.com.lojaautopecas.model.Funcionario;
@@ -15,7 +16,7 @@ import javax.servlet.http.HttpServletResponse;
 import br.com.lojaautopecas.dao.FuncionarioDao;
 
 
-@WebServlet(urlPatterns = {"/funcionario", "/funcionario/create", "/funcionario/create/submit", "/funcionario/update", "/funcionario/update/submit", "/funcionario/delete"})
+@WebServlet(urlPatterns = {"/funcionario","/funcionarios", "/funcionario/create", "/funcionario/create/submit", "/funcionario/update", "/funcionario/update/submit", "/funcionario/delete"})
 public class FuncionarioController extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	FuncionarioDao funcionarioDao = new FuncionarioDao();
@@ -45,6 +46,8 @@ public class FuncionarioController extends HttpServlet {
 			funcionarioUpdate(request, response);
 		} else if (action.equals("/funcionario/delete")) {
 			funcionarioDelete(request, response);
+		} else if(action.equals("/funcionarios")) {
+			pageFuncionarios(request, response);
 		}
 	}
 
@@ -70,12 +73,25 @@ public class FuncionarioController extends HttpServlet {
 		String context = getServletContext().getContextPath();
 
 		try {
-			response.sendRedirect(context+"/funcionario");
+			response.sendRedirect(context+"/funcionarios");
 		} catch (IOException e) {
 			throw new RuntimeException(e);
 		}
 	}
 
+	private void pageFuncionarios(HttpServletRequest request, HttpServletResponse response) {
+		try {
+			List<Funcionario> funcionarios = funcionarioDao.listarFuncionarios();
+
+			request.setAttribute("funcionarios", funcionarios);
+			request.getRequestDispatcher("funcionario/funcionarios.jsp").forward(request,response);
+
+		} catch (IOException e) {
+			throw new RuntimeException(e);
+		} catch (ServletException e) {
+			throw new RuntimeException(e);
+		}
+	}
 
 	private void pageFuncionario(HttpServletRequest request, HttpServletResponse response) {
 		try {
@@ -94,7 +110,7 @@ public class FuncionarioController extends HttpServlet {
 	private void pageFuncionarioUpdate (HttpServletRequest request, HttpServletResponse response) {
 		try {
 
-			int id = 1;
+			int id = Integer.parseInt(request.getParameter("id"));
 			Funcionario funcionario = funcionarioDao.buscarFuncionarioPorId(id);
 			request.setAttribute("funcionario", funcionario);
 
@@ -108,8 +124,7 @@ public class FuncionarioController extends HttpServlet {
 
 	private void funcionarioUpdate(HttpServletRequest request, HttpServletResponse response) {
 		System.out.println("Entrei no funcionarioUpdate");
-		//int idFuncionario = Integer.parseInt(request.getParameter("idFuncionario"));
-		int idFuncionario = 1;
+		int idFuncionario = Integer.parseInt(request.getParameter("idFuncionario"));
 
 		Funcionario funcionario = new Funcionario();
 
@@ -123,7 +138,7 @@ public class FuncionarioController extends HttpServlet {
 		String context = getServletContext().getContextPath();
 
 		try {
-			response.sendRedirect(context+"/funcionario");
+			response.sendRedirect(context+"/funcionarios");
 		} catch (IOException e) {
 			throw new RuntimeException(e);
 		}
@@ -132,14 +147,16 @@ public class FuncionarioController extends HttpServlet {
 	private void funcionarioDelete(HttpServletRequest request, HttpServletResponse response) {
 		try {
 			int id = Integer.parseInt(request.getParameter("id"));
+			System.out.println(id);
 			funcionarioDao.deletarFuncionario(id);
-			request.getRequestDispatcher("/").forward(request,response);
+
+			String context = getServletContext().getContextPath();
+
+			response.sendRedirect(context+"/funcionarios");
 
 		} catch (IOException e) {
 			throw new RuntimeException(e);
-		} catch (ServletException e) {
-			throw new RuntimeException(e);
 		}
-	}
+    }
 
 }

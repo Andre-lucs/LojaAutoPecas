@@ -17,6 +17,7 @@ public class HeaderHandler extends TagSupport {
                     "        <nav>\n" +
                     "            <a href=\""+context+"/main\">Vendas</a>\n" +
                     "            <a href=\""+context+"/cliente\">Clientes</a>\n" +
+                    "            <a href=\""+context+"/funcionarios\">Funcionarios</a>\n" +
                     "            <a href=\""+context+"/funcionario\">Perfil</a>\n" +
                     "            <a class=\"button\" href=\"logout\" >Sair</a>\n" +
                     "        </nav>\n" +
