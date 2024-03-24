@@ -29,8 +29,7 @@ public class VendaServicoDao {
         ResultSet tables = metaData.getTables(null, null, "vendaservico", null);
         return tables.next();
     }
-    
-    
+
  // Método para criar uma relação Venda-Servico no banco
  public void inserirVendaServico(VendaServico vendaServico) throws SQLException {
      if (!tabelaVendaServicoExiste()) {

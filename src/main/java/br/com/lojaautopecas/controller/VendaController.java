@@ -58,15 +58,13 @@ public class VendaController extends HttpServlet {
             int idVenda = Integer.parseInt(vid);
             String sid = request.getParameter("sid");
             int idServico = Integer.parseInt(sid);
-            Optional<VendaServico> vendaServicoOptional = vendaServicoDao.listarVendaServicosPorIdVenda(idVenda)
-                    .stream().filter(vs -> vs.getId_Servico() == idServico).findFirst();
-            if(vendaServicoOptional.isPresent()){
-                vendaServicoDao.deletarVendaServico(vendaServicoOptional.get().getId());
-            }
+            vendaServicoDao.deletarVendaServico(idVenda, idServico);
             request.getRequestDispatcher("venda?id="+vid).forward(request, response);
         } catch (IOException e) {
             throw new RuntimeException(e);
         } catch (ServletException e) {
+            throw new RuntimeException(e);
+        } catch (SQLException e) {
             throw new RuntimeException(e);
         }
     }
@@ -80,15 +78,13 @@ public class VendaController extends HttpServlet {
             int idVenda = Integer.parseInt(vid);
             String pid = request.getParameter("pid");
             int idPeca = Integer.parseInt(pid);
-            Optional<VendaPeca> vendaPecaOptional = vendaPecaDao.listarVendaPecasPorIdVenda(idVenda)
-                    .stream().filter(vs -> vs.getId_Peca() == idPeca).findFirst();
-            if(vendaPecaOptional.isPresent()){
-                vendaPecaDao.deletarVendaPeca(vendaPecaOptional.get().getId());
-            }
+            vendaPecaDao.deletarVendaPeca(idVenda, idPeca);
             request.getRequestDispatcher("venda?id="+vid).forward(request, response);
         } catch (IOException e) {
             throw new RuntimeException(e);
         } catch (ServletException e) {
+            throw new RuntimeException(e);
+        } catch (SQLException e) {
             throw new RuntimeException(e);
         }
     }
@@ -129,12 +125,8 @@ public class VendaController extends HttpServlet {
             Venda v = vendaDao.buscarVendaPorId(Integer.parseInt(id));
             Cliente c = clienteDao.buscarClientePorId(v.getId_Cliente());
             Funcionario f = funcionarioDao.buscarFuncionarioPorId(v.getId_Funcionario());
-            List<Servico> servicos_venda = vendaServicoDao.listarVendaServicosPorIdVenda(v.getId()).stream().
-                    map(VendaServico::getId_Servico).map(sid -> servicoDao.buscarServicoPorId(sid))
-                    .collect(Collectors.toList());
-            List<Peca> pecas_venda = vendaPecaDao.listarVendaPecasPorIdVenda(v.getId()).stream()
-                    .map(VendaPeca::getId_Peca).map(pid -> pecaDao.buscarPecaPorId(pid))
-                    .collect(Collectors.toList());
+            List<Servico> servicos_venda = vendaServicoDao.listarServicosPorIdVenda(v.getId());
+            List<Peca> pecas_venda = vendaPecaDao.listarPecasPorIdVenda(v.getId());
             request.setAttribute("venda", v);
             request.setAttribute("cliente", c);
             request.setAttribute("funcionario", f);
