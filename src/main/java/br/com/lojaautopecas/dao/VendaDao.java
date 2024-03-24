@@ -1,10 +1,6 @@
 package br.com.lojaautopecas.dao;
 
-import java.sql.Connection;
-import java.sql.DatabaseMetaData;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
+import java.sql.*;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -27,30 +23,38 @@ public class VendaDao {
 	        return tables.next();
 	    }
 
-	    // Método para inserir uma venda no banco
-	    public int inserirVenda(Venda venda) throws SQLException {
-	        if (!tabelaVendaExiste()) {
-	            TabelaVenda tabelaVenda = new TabelaVenda();
-	            tabelaVenda.criar();
-	        }
+	
+	public int inserirVenda(Venda venda) throws SQLException {
+		if (!tabelaVendaExiste()) {
+			TabelaVenda tabelaVenda = new TabelaVenda();
+			tabelaVenda.criar();
+		}
 
-	        String sql = "INSERT INTO venda (data, valor_Total, id_Cliente, id_Funcionario) " +
-	                "VALUES (?, ?, ?, ?)";
-	        try (PreparedStatement stmt = conexao.prepareStatement(sql)) {
-	            stmt.setDate(1, new java.sql.Date (venda.getData().getTime()));
-	            stmt.setDouble(2, 0);
-	            stmt.setInt(3, venda.getId_Cliente());
-	            stmt.setInt(4, venda.getId_Funcionario());
-	            ResultSet rs = stmt.executeQuery();
-				if (rs.next()){
-					System.out.println("Venda criada com sucesso!");
-					return rs.getInt("id");
+		String sql = "INSERT INTO venda (data, valor_Total, id_Cliente, id_Funcionario) VALUES (?, ?, ?, ?)";
+		try (PreparedStatement stmt = conexao.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)) {
+			stmt.setDate(1, new java.sql.Date(venda.getData().getTime()));
+			stmt.setDouble(2, 0); // Define o valor total inicial como 0
+			stmt.setInt(3, venda.getId_Cliente());
+			stmt.setInt(4, venda.getId_Funcionario());
+
+			// Executa a inserção
+			int rowsAffected = stmt.executeUpdate();
+
+			// Verifica se a inserção foi bem-sucedida e retorna o ID gerado, se disponível
+			if (rowsAffected > 0) {
+				ResultSet generatedKeys = stmt.getGeneratedKeys();
+				if (generatedKeys.next()) {
+					int idVenda = generatedKeys.getInt(1);
+					System.out.println("Venda criada com sucesso! ID: " + idVenda);
+					return idVenda;
 				}
-				return -1;
-	        } catch (SQLException e) {
-	            throw new RuntimeException(e);
-	        }
-	    }
+			}
+			// Se não foi possível inserir ou obter o ID gerado, retorna -1
+			return -1;
+		} catch (SQLException e) {
+			throw new RuntimeException(e);
+		}
+	}
 
 
 	    // Método para listar todas as vendas do banco

@@ -20,8 +20,8 @@ public class TabelaVenda {
                 "valor_Total DOUBLE PRECISION NOT NULL," +
                 "id_Cliente INTEGER NOT NULL," +
                 "id_Funcionario INTEGER NOT NULL," +
-                "FOREIGN KEY (id_Cliente) REFERENCES Cliente(id)," +
-                "FOREIGN KEY (id_Funcionario) REFERENCES Funcionario(id)" +
+                "FOREIGN KEY (id_Cliente) REFERENCES Cliente(id) ON DELETE CASCADE," +
+                "FOREIGN KEY (id_Funcionario) REFERENCES Funcionario(id) ON DELETE CASCADE" +
                 ")";
         Statement stmt = conexao.createStatement();
         stmt.execute(sql);
