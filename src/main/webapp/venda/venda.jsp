@@ -1,5 +1,6 @@
 <%@ page import="java.util.List" %>
 <%@ page import="br.com.lojaautopecas.model.*" %>
+<%@ page import="java.util.stream.Collectors" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib prefix="customTag" uri="../WEB-INF/CustomTags.tld" %>
 
@@ -9,6 +10,9 @@
     Funcionario funcionario = (Funcionario) request.getAttribute("funcionario");
     List<Servico> servicos = (List<Servico>) request.getAttribute("servicos");
     List<Peca> pecas = (List<Peca>) request.getAttribute("pecas");
+    List<Servico> possibleNewServicos = (List<Servico>) request.getAttribute("servicosPossiveis");
+    List<Peca> possibleNewPecas = (List<Peca>) request.getAttribute("pecasPossiveis");
+
 %>
 <html lang="pt-br">
 <head>
@@ -26,19 +30,19 @@
             <button onclick="confirmAction('deletar esta venda', 'venda/delete?id=<%=venda.getId()%>')" class="delete-button">Excluir</button>
         </div>
         <div>
-            <b>ID: <%out.print(venda.getId());%></b>
+            <b>ID: <%=venda.getId()%></b>
             <div>
                 <h3>Cliente:</h3>
-                <b>Nome: <%out.print(cliente.getNome());%></b>
-                <b>Nome: <%out.print(cliente.getCpf());%></b>
+                <b>Nome: <%=cliente.getNome()%></b>
+                <b>Nome: <%=cliente.getCpf()%></b>
             </div>
             <div>
                 <h3>Funcionário:</h3>
-                <b>Nome: <%out.print(funcionario.getNome());%></b>
-                <b>CPF: <%out.print(funcionario.getCpf());%></b>
+                <b>Nome: <%=funcionario.getNome()%></b>
+                <b>CPF: <%=funcionario.getCpf()%></b>
             </div>
-            <b>Data: <%out.print(venda.getData());%></b>
-            <b>Valor Total: <%out.print(venda.getValor_Total());%></b>
+            <b>Data: <%=venda.getData()%></b>
+            <b>Valor Total: <%=venda.getValor_Total()%></b>
         </div>
     </div>
     <div id="venda-servicos">
@@ -46,7 +50,21 @@
             <table>
                 <div class="table-top">
                     <b>Serviços</b>
-                    <a href="venda/servico/add" class="button">Adicionar</a><!--popup?-->
+                    <div class="flexhor">
+                        <form action="venda/servico/add">
+                            <input type="hidden" name="vId" value="<%=venda.getId()%>"/>
+                            <label for="add-servico-venda">
+                                Adicionar um serviço para a venda:
+                                <select id="add-servico-venda" name="sId" required>
+                                    <option value="">--Selecione o servico desejado--</option>
+                                    <% for(Servico servico : possibleNewServicos) { %>
+                                    <option value="<%=servico.getId()%>"><%=servico.getDescricao()+" | "+servico.getPreco()%></option>
+                                    <% }%>
+                                </select>
+                            </label>
+                            <button type="submit" class="button">Adicionar</button>
+                        </form>
+                    </div>
                 </div>
                 <thead>
                 <th>ID</th>
@@ -74,7 +92,21 @@
             <table>
                 <div class="table-top">
                     <b>Peças</b>
-                    <a href="venda/peca/add" class="button">Adicionar</a><!--popup?-->
+                    <div class="flexhor">
+                        <form action="venda/peca/add">
+                            <input type="hidden" name="vId" value="<%=venda.getId()%>"/>
+                            <label for="add-peca-venda">
+                                Adicionar um peça para a venda:
+                                <select id="add-peca-venda" name="pId" required>
+                                    <option value="">--Selecione a peça desejado--</option>
+                                    <% for(Peca peca : possibleNewPecas) { %>
+                                    <option value="<%=peca.getId()%>"><%=peca.getNome()+" | "+peca.getPreco()%></option>
+                                    <% }%>
+                                </select>
+                            </label>
+                            <button type="submit" class="button">Adicionar</button>
+                        </form>
+                    </div>
                 </div>
                 <thead>
                 <th>ID</th>

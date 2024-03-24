@@ -12,7 +12,6 @@ import java.sql.SQLException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.List;
-import java.util.Optional;
 import java.util.stream.Collectors;
 
 @WebServlet(urlPatterns = {"/venda", "/venda/create", "/venda/create/submit",
@@ -52,7 +51,20 @@ public class VendaController extends HttpServlet {
     }
 
     private void addServicoToVenda(HttpServletRequest request, HttpServletResponse response) {
-        //nova pagina?
+        String vId = request.getParameter("vId");
+        String sid = request.getParameter("sId");
+        int idVenda = Integer.parseInt(vId);
+        int idServico = Integer.parseInt(sid);
+        try {
+            DBaddServicoToVenda(idVenda, idServico);
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+        try {
+            response.sendRedirect(getServletContext().getContextPath()+"/venda?id="+vId);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     private void deleteServicoFromVenda(HttpServletRequest request, HttpServletResponse response) {
@@ -62,17 +74,26 @@ public class VendaController extends HttpServlet {
             String sid = request.getParameter("sid");
             int idServico = Integer.parseInt(sid);
             vendaServicoDao.deletarVendaServico(idVenda, idServico);
-            request.getRequestDispatcher("venda?id="+vid).forward(request, response);
+            response.sendRedirect(getServletContext().getContextPath()+"/venda?id="+vid);
         } catch (IOException e) {
-            throw new RuntimeException(e);
-        } catch (ServletException e) {
             throw new RuntimeException(e);
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
     }
     private void addPecaToVenda(HttpServletRequest request, HttpServletResponse response) {
-        //nova pagina?
+        String vId = request.getParameter("vId");
+        String pid = request.getParameter("pId");
+        int idVenda = Integer.parseInt(vId);
+        int idPeca = Integer.parseInt(pid);
+        try {
+            DBaddPecaToVenda(idVenda, idPeca);
+            response.sendRedirect(getServletContext().getContextPath()+"/venda?id="+vId);
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     private void deletePecaFromVenda(HttpServletRequest request, HttpServletResponse response) {
@@ -82,10 +103,8 @@ public class VendaController extends HttpServlet {
             String pid = request.getParameter("pid");
             int idPeca = Integer.parseInt(pid);
             vendaPecaDao.deletarVendaPeca(idVenda, idPeca);
-            request.getRequestDispatcher("venda?id="+vid).forward(request, response);
+            response.sendRedirect(getServletContext().getContextPath()+"/venda?id="+vid);
         } catch (IOException e) {
-            throw new RuntimeException(e);
-        } catch (ServletException e) {
             throw new RuntimeException(e);
         } catch (SQLException e) {
             throw new RuntimeException(e);
@@ -160,11 +179,16 @@ public class VendaController extends HttpServlet {
             Funcionario f = funcionarioDao.buscarFuncionarioPorId(v.getId_Funcionario());
             List<Servico> servicos_venda = vendaServicoDao.listarServicosPorIdVenda(v.getId());
             List<Peca> pecas_venda = vendaPecaDao.listarPecasPorIdVenda(v.getId());
+            List<Servico> possibleNewServicos = servicoDao.listarServicos().stream().filter(serv -> !servicos_venda.contains(serv)).collect(Collectors.toList());
+            List<Peca> possibleNewPecas = pecaDao.listarPeca().stream().filter(pe -> !pecas_venda.contains(pe)).collect(Collectors.toList());
+
             request.setAttribute("venda", v);
             request.setAttribute("cliente", c);
             request.setAttribute("funcionario", f);
             request.setAttribute("servicos", servicos_venda);
             request.setAttribute("pecas", pecas_venda);
+            request.setAttribute("servicosPossiveis", possibleNewServicos);
+            request.setAttribute("pecasPossiveis", possibleNewPecas);
             request.getRequestDispatcher("venda/venda.jsp").forward(request, response);
         } catch (ServletException | IOException e) {
             e.printStackTrace();
