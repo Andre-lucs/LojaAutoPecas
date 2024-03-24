@@ -1,5 +1,7 @@
 package br.com.lojaautopecas.controller;
 
+import br.com.lojaautopecas.dao.FuncionarioDao;
+
 import javax.servlet.*;
 import javax.servlet.http.*;
 import javax.servlet.annotation.*;
@@ -7,6 +9,7 @@ import java.io.IOException;
 
 @WebServlet(urlPatterns = {"/index.html","/login", "/login/submit", "/logout"})
 public class LoginController extends HttpServlet {
+    FuncionarioDao funcionarioDao = new FuncionarioDao();
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         String action = request.getServletPath();
@@ -24,11 +27,9 @@ public class LoginController extends HttpServlet {
 
     private void logoutFunctionary(HttpServletRequest request, HttpServletResponse response) {
         System.out.println("logout");
-        HttpSession session = request.getSession();
+        HttpSession session = request.getSession(false);
         session.invalidate();
-        Cookie cookie = new Cookie("login", "");
-        cookie.setMaxAge(0);
-        response.addCookie(cookie);
+
         try {
             response.sendRedirect("login");
         } catch (IOException e) {
@@ -41,17 +42,23 @@ public class LoginController extends HttpServlet {
         String username = request.getParameter("username");
         String password = request.getParameter("password");
         //login
-        //int id = funcionarioDao.login(username, password);
-        //salvar sessao
-        //Cookie loginCookie = new Cookie("login", id);
-        //loginCookie.setMaxAge(60*60*12);//12 horas
-        //response.addCookie(loginCookie);
-        //HttpSession session = request.getSession(true);
-        //session.setAttribute("login", id);
-        try {
-            response.sendRedirect("../main");
-        } catch (IOException e) {
-            throw new RuntimeException(e);
+        int id = funcionarioDao.validarCpfSenha(username, password);
+        System.out.println("login id : "+id);
+        if(id != -1){//passou
+            //salvar sessao
+            HttpSession session = request.getSession(true);
+            session.setAttribute("login", id);
+            try {
+                response.sendRedirect("../main");
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
+        }else{
+            try {
+                response.sendRedirect("login");
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
         }
     }
 

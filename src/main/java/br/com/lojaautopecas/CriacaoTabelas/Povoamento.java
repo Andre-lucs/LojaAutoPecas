@@ -43,6 +43,12 @@ public class Povoamento {
 
         // Funcionarios
         fun.setCargo("Vendedor");
+        fun.setCpf("teste");
+        fun.setNome("João testador");
+        fun.setSenha("teste");
+        funDao.inserirFuncionario(fun);
+
+        fun.setCargo("Vendedor");
         fun.setCpf("666.521.358-63");
         fun.setNome("Victor");
         fun.setSenha("656984");

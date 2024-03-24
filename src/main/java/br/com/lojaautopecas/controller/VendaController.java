@@ -2,7 +2,6 @@ package br.com.lojaautopecas.controller;
 
 import br.com.lojaautopecas.dao.*;
 import br.com.lojaautopecas.model.*;
-import br.com.lojaautopecas.utils.ManageCookies;
 
 import javax.servlet.*;
 import javax.servlet.http.*;
@@ -100,7 +99,9 @@ public class VendaController extends HttpServlet {
             SimpleDateFormat formatador = new SimpleDateFormat("yyyy-MM-dd");
             Date dataSql = new Date(formatador.parse(request.getParameter("data")).getTime());
             venda.setData(dataSql);
-            venda.setId_Funcionario(Integer.parseInt(ManageCookies.getLoginCookie(request)));
+            HttpSession session = request.getSession(false);
+
+            venda.setId_Funcionario(Integer.parseInt((String) session.getAttribute("login")));
             int vendaid = vendaDao.inserirVenda(venda);
             if(vendaid != -1){
                 DBaddServicoToVenda(vendaid, Integer.parseInt(request.getParameter("selectServico")));
