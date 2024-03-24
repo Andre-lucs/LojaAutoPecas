@@ -16,8 +16,8 @@ public class HeaderHandler extends TagSupport {
             out.println("<header>\n" +
                     "        <nav>\n" +
                     "            <a href=\""+context+"/main\">Vendas</a>\n" +
-                    "            <a href=\"cliente\">Clientes</a>\n" +
-                    "            <a href=\"\"><img src=\"./resources/images/user.png\" alt=\"user\"></a>\n" +
+                    "            <a href=\""+context+"/cliente\">Clientes</a>\n" +
+                    "            <a href=\""+context+"/funcionario\">Perfil</a>\n" +
                     "            <button>Sair</button>\n" +
                     "        </nav>\n" +
                     "    </header>");

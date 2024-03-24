@@ -26,37 +26,33 @@
 </head>
 <body>
 <customTag:header/>
-<form name="formVenda" action="create/submit" >
+<form class="form-container" name="formVenda" action="create/submit" >
     <h3>Cliente: </h3>
-    <div class="flexvert">
-        <select title="selectClient" name="selectClient" required>
+    <div class="flex-container">
+        <select class="form-select" title="selectClient" name="selectClient" required>
             <% for (Cliente cliente : clientes) {%>
                 <option value="<%=cliente.getId()%>"><%=cliente.getNome()+" - "+cliente.getCpf()%></option>
            <% }%>
         </select>
         <a class="button" href="../cliente/create">Cadastrar Novo Cliente</a>
     </div>
-    <div class="flexhor">
+    <div class="flex-container">
         <b>Data da venda: </b>
-        <input type="date" name="data" required value="<%=todayIso%>"></input>
+        <input class="form-input" type="date" name="data" required value="<%=todayIso%>"></input>
     </div>
-
     <h3>Tipo do serviço:</h3>
-    <select title="selectService" name="selectService" required>
+    <select class="form-select" title="selectService" name="selectService" required>
         <% for (Servico servico : servicos) {%>
         <option value="<%=servico.getId()%>"><%=servico.getDescricao()%></option>
         <% }%>
     </select>
-
     <h3>Escolher Peça: </h3>
-    <select title="selectPeca" name="selectPeca" required>
+    <select class="form-select" title="selectPeca" name="selectPeca" required>
         <% for (Peca peca : pecas) {%>
             <option value="<%=peca.getId()%>"><%=peca.getNome()%></option>
        <% }%>
     </select>
-
-    <!-- id vem do cookie login XXX<input type="text" name="funcionarioId" value="" readonly> -->
-    <input type="submit" value="Cadastar">
+    <input class="button" type="submit" value="Cadastar">
 </form>
 </body>
 </html>

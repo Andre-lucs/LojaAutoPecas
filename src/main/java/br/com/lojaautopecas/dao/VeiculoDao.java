@@ -22,8 +22,7 @@ public class VeiculoDao {
         return tables.next();
     }
 
-    public void inserirVeiculo(Veiculo veiculo) throws SQLException {
-
+    public Veiculo inserirVeiculo(Veiculo veiculo) throws SQLException {
         if (!tabelaVeiculoExiste()) {
             TabelaVeiculo tabelaVeiculo = new TabelaVeiculo();
             tabelaVeiculo.criar();
@@ -32,15 +31,19 @@ public class VeiculoDao {
         String sql = "INSERT INTO veiculo (modelo, marca, ano) VALUES (?, ?, ?)";
 
         try {
-            PreparedStatement stmt = conexao.prepareStatement(sql);
+            PreparedStatement stmt = conexao.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
             stmt.setString(1, veiculo.getModelo());
             stmt.setString(2, veiculo.getMarca());
             stmt.setInt(3, veiculo.getAno());
-            stmt.execute();
+            stmt.executeUpdate();
+
+            ResultSet rs = stmt.getGeneratedKeys();
+            if (rs.next()) {
+                veiculo.setId(rs.getInt(1)); // Define o ID gerado para o objeto veículo
+            }
             stmt.close();
-
-            System.out.println("Veiculo criado com sucesso!");
-
+            System.out.println("Veículo criado com sucesso!");
+            return veiculo;
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }

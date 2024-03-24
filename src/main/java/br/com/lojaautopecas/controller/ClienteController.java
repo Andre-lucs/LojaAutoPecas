@@ -17,7 +17,7 @@ import br.com.lojaautopecas.model.Veiculo;
 
 
 
-@WebServlet(urlPatterns = {"/cliente", "/cliente/create","/cliente/create/submit", "/cliente/update", "/cliente/delete"})
+@WebServlet(urlPatterns = {"/cliente", "/cliente/create","/cliente/create/submit", "/cliente/update", "/cliente/update/submit", "/cliente/delete"})
 public class ClienteController extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	private ClienteDao clienteDao = new ClienteDao();
@@ -66,10 +66,11 @@ public class ClienteController extends HttpServlet {
 			Veiculo veiculoCreated = veiculoDao.inserirVeiculo(veiculo);
 			cliente.setId_Veiculo(veiculoCreated.getId());
 			clienteDao.inserirCliente(cliente);
+
+		 	String context = getServletContext().getContextPath();
+
 	        try {
-	            request.getRequestDispatcher("../cliente").forward(request,response);
-	        } catch (ServletException e) {
-	            throw new RuntimeException(e);
+	            response.sendRedirect(context+"/cliente");
 	        } catch (IOException e) {
 	            throw new RuntimeException(e);
 	        }
@@ -121,26 +122,26 @@ public class ClienteController extends HttpServlet {
 	  
 	  private void clienteUpdate(HttpServletRequest request, HttpServletResponse response) {
 	        
-		  	int idCliente = Integer.parseInt(request.getParameter("idClient"));
-		  	int idVeiculo = Integer.parseInt(request.getParameter("idVeiculo"));
+		  	Cliente cliente = Integer.parseInt(request.getAttribute("cliente"));
+		  	Veiculo veiculo = Integer.parseInt(request.getAttribute("veiculo"));
 		  
-		  	Cliente cliente = new Cliente();
-	        Veiculo veiculo = new Veiculo();
+		  	Cliente clienteUp = new Cliente();
+	        Veiculo veiculoUp = new Veiculo();
 	        
-	        cliente.setNome(request.getParameter("name"));
-	        cliente.setCpf(request.getParameter("cpf"));
+	        clienteUp.setNome(request.getParameter("name"));
+	        clienteUp.setCpf(request.getParameter("cpf"));
 	        
-	        veiculo.setAno(Integer.parseInt(request.getParameter("ano")));
-	        veiculo.setMarca(request.getParameter("marca"));
-	        veiculo.setModelo(request.getParameter("modelo"));
+	        veiculoUp.setAno(Integer.parseInt(request.getParameter("ano")));
+	        veiculoUp.setMarca(request.getParameter("marca"));
+	        veiculoUp.setModelo(request.getParameter("modelo"));
 	        
-	        clienteDao.atualizarCliente(idCliente, cliente);;
-	        veiculoDao.atualizarVeiculo(idVeiculo, veiculo);
-	        
+	        clienteDao.atualizarCliente(cliente.getId(), clienteUp);;
+	        veiculoDao.atualizarVeiculo(veiculo.getId(), veiculoUp);
+
+		  String context = getServletContext().getContextPath();
+
 	        try {
-	            request.getRequestDispatcher("../cliente").forward(request,response);
-	        } catch (ServletException e) {
-	            throw new RuntimeException(e);
+				response.sendRedirect(context+"/cliente");
 	        } catch (IOException e) {
 	            throw new RuntimeException(e);
 	        }
@@ -150,13 +151,14 @@ public class ClienteController extends HttpServlet {
 	        try {
 	            int id = Integer.parseInt(request.getParameter("id"));
 	            clienteDao.deletarCliente(id);
-	            request.getRequestDispatcher("../cliente.jsp").forward(request,response);
-	            
+
+				String context = getServletContext().getContextPath();
+
+				response.sendRedirect(context+"/cliente");
+
 	        } catch (IOException e) {
 	            throw new RuntimeException(e);
-	        } catch (ServletException e) {
-	            throw new RuntimeException(e);
 	        }
-	    }
+      }
 
 }

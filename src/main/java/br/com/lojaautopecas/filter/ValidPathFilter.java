@@ -14,7 +14,7 @@ public class ValidPathFilter implements Filter {
             "/login", "/login/submit", "/logout",
             "/venda", "/venda/create", "/venda/create/submit", "/venda/delete",
             "/venda/servico/delete", "/venda/servico/add", "/venda/peca/delete", "/venda/peca/add",
-            "/cliente", "/cliente/create", "/cliente/create/submit", "/cliente/update", "/cliente/delete",
+            "/cliente", "/cliente/create", "/cliente/create/submit", "/cliente/update", "/cliente/update/submit", "/cliente/delete",
             "/funcionario/create", "/funcionario/update", "/funcionario", "/funcionario/delete",
 
     };
