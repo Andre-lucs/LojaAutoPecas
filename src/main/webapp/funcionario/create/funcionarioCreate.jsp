@@ -3,25 +3,26 @@
 <!DOCTYPE html>
 <html>
 <head>
-<meta charset="ISO-8859-1">
-<title>Insert title here</title>
+<meta charset="utf-8">
+<title>Cadastro de Funcionário</title>
+<link rel="stylesheet" type="text/css" href="../resources/css/styles.css"/>
 </head>
 <body>
-	<h1>Cadastro de Funcionário</h1>
-    <form action="cadastrarFuncionario.jsp" method="POST">
-        <label for="cpf">CPF:</label>
-        <input type="text" id="cpf" name="cpf" required><br><br>
+    <h1 class="form-title">Cadastro de Funcionário</h1>
+    <form class="form-container" action="cadastrarFuncionario.jsp" >
+        <label class="form-label" for="cpf">CPF:</label>
+        <input class="form-input" type="text" id="cpf" name="cpf" required>
 
-        <label for="nome">Nome:</label>
-        <input type="text" id="nome" name="nome" required><br><br>
+        <label class="form-label" for="nome">Nome:</label>
+        <input class="form-input" type="text" id="nome" name="nome" required>
 
-        <label for="cargo">Cargo:</label>
-        <input type="text" id="cargo" name="cargo" required><br><br>
+        <label class="form-label" for="cargo">Cargo:</label>
+        <input class="form-input" type="text" id="cargo" name="cargo" required>
 
-        <label for="senha">Senha:</label>
-        <input type="password" id="senha" name="senha" required><br><br>
+        <label class="form-label" for="senha">Senha:</label>
+        <input class="form-input" type="password" id="senha" name="senha" required>
 
-        <input type="submit" value="Cadastrar">
+        <input class="form-button" type="submit" value="Cadastrar">
     </form>
 </body>
 </html>

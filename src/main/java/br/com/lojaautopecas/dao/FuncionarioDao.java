@@ -76,6 +76,7 @@ public class FuncionarioDao {
     // Método para atualizar um funcionário no banco
     public void atualizarFuncionario(Integer id, Funcionario novoFuncionario) {
     	// Verifica se o funcionário com o ID especificado existe antes de prosseguir
+
         if (buscarFuncionarioPorId(id) != null) {
         	 String sql = "UPDATE funcionario SET cpf=?, nome=?, cargo=?, senha=? WHERE id=?";
              try (PreparedStatement stmt = conexao.prepareStatement(sql)) {
