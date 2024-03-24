@@ -28,7 +28,7 @@ public class VendaDao {
 	    }
 
 	    // Método para inserir uma venda no banco
-	    public void inserirVenda(Venda venda) throws SQLException {
+	    public int inserirVenda(Venda venda) throws SQLException {
 	        if (!tabelaVendaExiste()) {
 	            TabelaVenda tabelaVenda = new TabelaVenda();
 	            tabelaVenda.criar();
@@ -41,8 +41,12 @@ public class VendaDao {
 	            stmt.setDouble(2, 0);
 	            stmt.setInt(3, venda.getId_Cliente());
 	            stmt.setInt(4, venda.getId_Funcionario());
-	            stmt.executeUpdate();
-	            System.out.println("Venda criada com sucesso!");
+	            ResultSet rs = stmt.executeQuery();
+				if (rs.next()){
+					System.out.println("Venda criada com sucesso!");
+					return rs.getInt("id");
+				}
+				return -1;
 	        } catch (SQLException e) {
 	            throw new RuntimeException(e);
 	        }

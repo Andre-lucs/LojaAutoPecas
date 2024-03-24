@@ -26,7 +26,7 @@
 </head>
 <body>
 <customTag:header/>
-<form name="formVenda" action="submit" >
+<form name="formVenda" action="create/submit" >
     <h3>Cliente: </h3>
     <div class="flexvert">
         <select title="selectClient" name="selectClient" required>

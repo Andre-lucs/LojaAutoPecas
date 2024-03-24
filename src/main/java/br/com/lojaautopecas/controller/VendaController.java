@@ -2,12 +2,16 @@ package br.com.lojaautopecas.controller;
 
 import br.com.lojaautopecas.dao.*;
 import br.com.lojaautopecas.model.*;
+import br.com.lojaautopecas.utils.ManageCookies;
 
 import javax.servlet.*;
 import javax.servlet.http.*;
 import javax.servlet.annotation.*;
 import java.io.IOException;
+import java.sql.Date;
 import java.sql.SQLException;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -90,16 +94,44 @@ public class VendaController extends HttpServlet {
     }
 
     private void vendaCreate(HttpServletRequest request, HttpServletResponse response) {
-        Venda venda = new Venda();
-        //getatributtes
-        //salva a venda
         try {
-            request.getRequestDispatcher("venda").forward(request,response);
+            Venda venda = new Venda();
+            venda.setId_Cliente(Integer.parseInt(request.getParameter("selectClient")));
+            SimpleDateFormat formatador = new SimpleDateFormat("yyyy-MM-dd");
+            Date dataSql = new Date(formatador.parse(request.getParameter("data")).getTime());
+            venda.setData(dataSql);
+            venda.setId_Funcionario(Integer.parseInt(ManageCookies.getLoginCookie(request)));
+            int vendaid = vendaDao.inserirVenda(venda);
+            if(vendaid != -1){
+                DBaddServicoToVenda(vendaid, Integer.parseInt(request.getParameter("selectServico")));
+                DBaddPecaToVenda(vendaid, Integer.parseInt(request.getParameter("selectPeca")));
+                request.getRequestDispatcher("venda?id="+vendaid).forward(request,response);
+            }else{
+                response.sendError(HttpServletResponse.SC_BAD_REQUEST);
+            }
         } catch (ServletException e) {
             throw new RuntimeException(e);
         } catch (IOException e) {
             throw new RuntimeException(e);
+        } catch (ParseException e) {
+            throw new RuntimeException(e);
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
         }
+    }
+
+    private void DBaddPecaToVenda(int vendaid, int pecaid) throws SQLException {
+        VendaPeca vp = new VendaPeca();
+        vp.setId_Venda(vendaid);
+        vp.setId_Peca(pecaid);
+        vendaPecaDao.inserirVendaPeca(vp);
+    }
+
+    private void DBaddServicoToVenda(int vendaid, int servicoid) throws SQLException {
+        VendaServico vs = new VendaServico();
+        vs.setId_Venda(vendaid);
+        vs.setId_Servico(servicoid);
+        vendaServicoDao.inserirVendaServico(vs);
     }
 
     private void pageVendaCreate(HttpServletRequest request, HttpServletResponse response) {

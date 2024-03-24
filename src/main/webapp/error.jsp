@@ -24,6 +24,15 @@
             case "InvalidPath":
                 out.print("Caminho invalido");
                 break;
+            case "BadRequest":
+                out.print("Dados inválidos");
+                break;
+            case "ServerError":
+                out.print("Erro interno do servidor");
+                break;
+            case "UnMapped":
+                out.print("Erro ");
+                break;
             default:
                 out.print("Error: " + error);
         }
