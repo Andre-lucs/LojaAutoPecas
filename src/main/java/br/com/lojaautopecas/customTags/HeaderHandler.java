@@ -18,7 +18,7 @@ public class HeaderHandler extends TagSupport {
                     "            <a href=\""+context+"/main\">Vendas</a>\n" +
                     "            <a href=\""+context+"/cliente\">Clientes</a>\n" +
                     "            <a href=\""+context+"/funcionario\">Perfil</a>\n" +
-                    "            <button>Sair</button>\n" +
+                    "            <a class=\"button\" href=\"logout\" >Sair</a>\n" +
                     "        </nav>\n" +
                     "    </header>");
         } catch (IOException e) {
