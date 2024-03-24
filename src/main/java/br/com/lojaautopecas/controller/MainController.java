@@ -21,13 +21,6 @@ public class MainController extends HttpServlet {
 
     private void pageMain(HttpServletRequest request, HttpServletResponse response) {
         List<Venda> vendaList = vendaDao.listarVendas();
-        var v = new Venda();
-        v.setId(1);
-        v.setData(new Date());
-        v.setId_Cliente(1);
-        v.setId_Funcionario(1);
-        v.setValor_Total(1000d);
-        vendaList.add(v);
         request.setAttribute("vendas", vendaList);
         RequestDispatcher rd = request.getRequestDispatcher("main/main.jsp");
         try {

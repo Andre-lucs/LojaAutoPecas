@@ -1,12 +1,6 @@
-<%--
-  Created by IntelliJ IDEA.
-  User: andre
-  Date: 22/03/2024
-  Time: 16:40
-  To change this template use File | Settings | File Templates.
---%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib prefix="customTag" uri="../WEB-INF/CustomTags.tld" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ page import="br.com.lojaautopecas.model.Venda"%>
 <%@ page import="java.util.List" %>
 <%@ page import="java.util.ArrayList" %>
@@ -25,7 +19,7 @@
     <div>
         <!-- se der tempo https://www.w3schools.com/howto/howto_js_sort_table.asp -->
         <table>
-            <div id="table-top">
+            <div class="table-top">
                 <b>Tabela de Vendas</b>
                 <a href="venda/create" class="button">Adicionar</a>
             </div>

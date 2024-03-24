@@ -12,7 +12,8 @@ public class ValidPathFilter implements Filter {
     private final String[] validPaths = {
             "/", "/index.html", "/error", "/main",
             "/login", "/login/submit", "/logout",
-            "/venda", "/venda/create", "/venda/create/submit",
+            "/venda", "/venda/create", "/venda/create/submit", "/venda/delete",
+            "/venda/servico/delete", "/venda/servico/add", "/venda/peca/delete", "/venda/peca/add",
             "/cliente", "/cliente/create", "/cliente/update", "/cliente/delete",
     };
     public void init(FilterConfig config) throws ServletException {
@@ -31,10 +32,7 @@ public class ValidPathFilter implements Filter {
             System.out.println(" passou");
             chain.doFilter(request, response);
         } else {
-            Cookie cookie = new Cookie("login", "");
-            cookie.setMaxAge(0);
-            httpResp.addCookie(cookie);
-            httpResp.sendRedirect(httpReq.getContextPath()+"/error?error=InvalidPath");//pagina de error
+            httpResp.sendError(404);
         }
     }
 

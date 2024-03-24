@@ -1,4 +1,3 @@
-<%@ page import="java.util.ArrayList" %>
 <%@ page import="java.util.List" %>
 <%@ page import="java.util.Date" %>
 <%@ page import="java.util.TimeZone" %>
@@ -14,12 +13,10 @@
     List<Servico> servicos =  (List<Servico>) request.getAttribute("servicos");
     List<Peca> pecas = (List<Peca>) request.getAttribute("pecas");
 
-
     TimeZone tz = TimeZone.getTimeZone("UTC");
     DateFormat df = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm'Z'"); // Quoted "Z" to indicate UTC, no timezone offset
     df.setTimeZone(tz);
     String todayIso = df.format(new Date()).substring(0,10);
-
 %>
 <html lang="pt-br">
 <head>
@@ -31,13 +28,18 @@
 <customTag:header/>
 <form name="formVenda" action="submit" >
     <h3>Cliente: </h3>
-    <select title="selectClient" name="selectClient" required>
-        <% for (Cliente cliente : clientes) {%>
-            <option value="<%=cliente.getId()%>"><%=cliente.getNome()+" - "+cliente.getCpf()%></option>
-       <% }%>
-    </select>
-    <a href="../cliente/create">Cadastrar Novo Cliente</a>
-    Data da venda: <input type="date" name="data" required value="<%=todayIso%>"}></input>
+    <div class="flexvert">
+        <select title="selectClient" name="selectClient" required>
+            <% for (Cliente cliente : clientes) {%>
+                <option value="<%=cliente.getId()%>"><%=cliente.getNome()+" - "+cliente.getCpf()%></option>
+           <% }%>
+        </select>
+        <a class="button" href="../cliente/create">Cadastrar Novo Cliente</a>
+    </div>
+    <div class="flexhor">
+        <b>Data da venda: </b>
+        <input type="date" name="data" required value="<%=todayIso%>"></input>
+    </div>
 
     <h3>Tipo do serviço:</h3>
     <select title="selectService" name="selectService" required>
