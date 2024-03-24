@@ -1,5 +1,7 @@
 package br.com.lojaautopecas.model;
 
+import java.util.Objects;
+
 public class Peca {
     private int id;
     private String nome;
@@ -24,5 +26,16 @@ public class Peca {
 		this.preco = preco;
 	}
 
-    
+	@Override
+	public boolean equals(Object o) {
+		if (this == o) return true;
+		if (o == null || getClass() != o.getClass()) return false;
+		Peca peca = (Peca) o;
+		return id == peca.id;
+	}
+
+	@Override
+	public int hashCode() {
+		return Objects.hash(id);
+	}
 }
