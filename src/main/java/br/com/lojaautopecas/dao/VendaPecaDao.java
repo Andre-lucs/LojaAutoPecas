@@ -42,13 +42,13 @@ public class VendaPecaDao {
         VendaDao vendaDao = new VendaDao();
         Venda venda = vendaDao.buscarVendaPorId(id_venda);
 
-        vendaDao.somarValorTotalVendaPeca(venda, precoPeca);
-
+        
         String sql = "INSERT INTO vendapeca (id_venda, id_peca) VALUES (?, ?)";
         try (PreparedStatement stmt = conexao.prepareStatement(sql)) {
             stmt.setInt(1, vendaPeca.getId_Venda());
             stmt.setInt(2, vendaPeca.getId_Peca());
             stmt.executeUpdate();
+            vendaDao.somarValorTotalVendaPeca(venda, precoPeca);
             System.out.println("Relação Venda-Peça criada com sucesso!");
         } catch (SQLException e) {
             throw new RuntimeException("Erro ao criar a relação Venda-Peça: " + e.getMessage());

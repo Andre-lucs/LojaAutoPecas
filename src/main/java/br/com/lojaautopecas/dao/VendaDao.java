@@ -83,7 +83,7 @@ public class VendaDao {
 		        String sql = "UPDATE venda SET data=?, valor_Total=?, id_Cliente=?, id_Funcionario=? WHERE id=?";
 		        try (PreparedStatement stmt = conexao.prepareStatement(sql)) {
 		            stmt.setDate(1, new java.sql.Date(novosDadosVenda.getData().getTime()));
-		            stmt.setDouble(2, novosDadosVenda.getValor_Total());
+		            stmt.setDouble(2, novosDadosVenda.getValor_Total());//TIRAR?
 		            stmt.setInt(3, novosDadosVenda.getId_Cliente());
 		            stmt.setInt(4, novosDadosVenda.getId_Funcionario());
 		            stmt.setInt(5, id); // Define o ID da venda a ser atualizada
