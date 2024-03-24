@@ -68,10 +68,10 @@ public class FuncionarioController extends HttpServlet {
 		funcionario.setSenha(request.getParameter("senha"));
 
 		funcionarioDao.inserirFuncionario(funcionario);
+		String context = getServletContext().getContextPath();
+
 		try {
-			request.getRequestDispatcher("../funcionario").forward(request,response);
-		} catch (ServletException e) {
-			throw new RuntimeException(e);
+			response.sendRedirect(context+"/funcionario");
 		} catch (IOException e) {
 			throw new RuntimeException(e);
 		}
@@ -115,17 +115,17 @@ public class FuncionarioController extends HttpServlet {
 
 		Funcionario funcionario = new Funcionario();
 
-		funcionario.setNome(request.getParameter("name"));
+		funcionario.setNome(request.getParameter("nome"));
 		funcionario.setCpf(request.getParameter("cpf"));
 		funcionario.setCargo(request.getParameter("cargo"));
 		funcionario.setSenha(request.getParameter("senha"));
 
 		funcionarioDao.atualizarFuncionario(idFuncionario, funcionario);
 
+		String context = getServletContext().getContextPath();
+
 		try {
-			request.getRequestDispatcher("../funcionario").forward(request,response);
-		} catch (ServletException e) {
-			throw new RuntimeException(e);
+			response.sendRedirect(context+"/funcionario");
 		} catch (IOException e) {
 			throw new RuntimeException(e);
 		}

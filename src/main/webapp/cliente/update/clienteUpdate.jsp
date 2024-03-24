@@ -17,7 +17,9 @@
 	<form action="/LojaAutoPecas/cliente/update/submit">
 	
 		<h2>Cadastro do Cliente:</h2>
-		
+
+		<input type="text" name="idCliente" readonly
+        					value="<%out.print(cliente.getId());%>">
         <label for="nome">Nome:</label>
         <input type="text" id="nome" name="nome" value="<%out.print(cliente.getNome());%>">
         
@@ -25,7 +27,9 @@
         <input type="text" id="cpf" name="cpf" value="<%out.print(cliente.getCpf());%>" required>
         
         <h2>Cadastro do Veículo:</h2>
-        
+
+        <input type="text" name="idVeiculo" readonly value="<%out.print(veiculo.getId());%>">
+
         <label for="modelo" >Modelo:</label>
         <input type="text" id="modelo" name="modelo" value="<%out.print(veiculo.getModelo());%>" required>
         

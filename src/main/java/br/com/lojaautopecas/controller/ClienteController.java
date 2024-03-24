@@ -121,22 +121,24 @@ public class ClienteController extends HttpServlet {
 	    }
 	  
 	  private void clienteUpdate(HttpServletRequest request, HttpServletResponse response) {
+
+
+		  	int clienteId = Integer.parseInt(request.getParameter("idCliente"));
+			int veiculoId = Integer.parseInt(request.getParameter("idVeiculo"));
+			System.out.println(clienteId);
+
+		  	Cliente cliente = new Cliente();
+	        Veiculo veiculo = new Veiculo();
 	        
-		  	Cliente cliente = Integer.parseInt(request.getAttribute("cliente"));
-		  	Veiculo veiculo = Integer.parseInt(request.getAttribute("veiculo"));
-		  
-		  	Cliente clienteUp = new Cliente();
-	        Veiculo veiculoUp = new Veiculo();
+	        cliente.setNome(request.getParameter("nome"));
+	        cliente.setCpf(request.getParameter("cpf"));
 	        
-	        clienteUp.setNome(request.getParameter("name"));
-	        clienteUp.setCpf(request.getParameter("cpf"));
+	        veiculo.setAno(Integer.parseInt(request.getParameter("ano")));
+	        veiculo.setMarca(request.getParameter("marca"));
+	        veiculo.setModelo(request.getParameter("modelo"));
 	        
-	        veiculoUp.setAno(Integer.parseInt(request.getParameter("ano")));
-	        veiculoUp.setMarca(request.getParameter("marca"));
-	        veiculoUp.setModelo(request.getParameter("modelo"));
-	        
-	        clienteDao.atualizarCliente(cliente.getId(), clienteUp);;
-	        veiculoDao.atualizarVeiculo(veiculo.getId(), veiculoUp);
+	        clienteDao.atualizarCliente(clienteId, cliente);;
+	        veiculoDao.atualizarVeiculo(veiculoId, veiculo);
 
 		  String context = getServletContext().getContextPath();
 
