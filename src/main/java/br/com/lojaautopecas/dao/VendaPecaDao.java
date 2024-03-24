@@ -10,6 +10,7 @@ import java.util.List;
 
 import br.com.lojaautopecas.CriacaoTabelas.TabelaVendaPeca;
 import br.com.lojaautopecas.jdbc.DBConnection;
+import br.com.lojaautopecas.model.Peca;
 import br.com.lojaautopecas.model.Venda;
 import br.com.lojaautopecas.model.VendaPeca;
 
@@ -55,23 +56,43 @@ public class VendaPecaDao {
     }
 
  // Método para listar todos os registros de VendaPeca relacionados a uma venda específica
-    public List<VendaPeca> listarVendaPecasPorIdVenda(int idVenda) {
-        List<VendaPeca> vendaPecas = new ArrayList<>();
-        String sql = "SELECT * FROM VendaPeca WHERE id_Venda = ?";
+//    public List<Peca> listarVendaPecasPorIdVenda(int idVenda) {
+//        List<VendaPeca> vendaPecas = new ArrayList<>();
+//        String sql = "SELECT * FROM VendaPeca WHERE id_Venda = ?";
+//        try (PreparedStatement stmt = conexao.prepareStatement(sql)) {
+//            stmt.setInt(1, idVenda);
+//            ResultSet rs = stmt.executeQuery();
+//            while (rs.next()) {
+//                VendaPeca vendaPeca = new VendaPeca();
+//                vendaPeca.setId(rs.getInt("id"));
+//                vendaPeca.setId_Venda(rs.getInt("id_Venda"));
+//                vendaPeca.setId_Peca(rs.getInt("id_Peca"));
+//                vendaPecas.add(vendaPeca);
+//            }
+//        } catch (SQLException e) {
+//            throw new RuntimeException("Erro ao listar os registros de VendaPeca por ID de venda", e);
+//        }
+//        return vendaPecas;
+//    }
+
+    // Método para listar todas as peças relacionadas a uma venda específica
+    public List<Peca> listarPecasPorIdVenda(int idVenda) {
+        List<Peca> pecas = new ArrayList<>();
+        String sql = "SELECT p.* FROM Peca p INNER JOIN VendaPeca vp ON p.id = vp.id_Peca WHERE vp.id_Venda = ?";
         try (PreparedStatement stmt = conexao.prepareStatement(sql)) {
             stmt.setInt(1, idVenda);
             ResultSet rs = stmt.executeQuery();
             while (rs.next()) {
-                VendaPeca vendaPeca = new VendaPeca();
-                vendaPeca.setId(rs.getInt("id"));
-                vendaPeca.setId_Venda(rs.getInt("id_Venda"));
-                vendaPeca.setId_Peca(rs.getInt("id_Peca"));
-                vendaPecas.add(vendaPeca);
+                Peca peca = new Peca();
+                peca.setId(rs.getInt("id"));
+                peca.setNome(rs.getString("nome"));
+                peca.setPreco(rs.getDouble("preco"));
+                pecas.add(peca);
             }
         } catch (SQLException e) {
-            throw new RuntimeException("Erro ao listar os registros de VendaPeca por ID de venda", e);
+            throw new RuntimeException("Erro ao listar as peças por ID de venda", e);
         }
-        return vendaPecas;
+        return pecas;
     }
 
     // Método para deletar uma relação Venda-Peça do banco

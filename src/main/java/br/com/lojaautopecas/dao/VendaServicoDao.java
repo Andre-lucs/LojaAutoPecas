@@ -10,6 +10,7 @@ import java.util.List;
 
 import br.com.lojaautopecas.CriacaoTabelas.TabelaVendaServico;
 import br.com.lojaautopecas.jdbc.DBConnection;
+import br.com.lojaautopecas.model.Servico;
 import br.com.lojaautopecas.model.Venda;
 import br.com.lojaautopecas.model.VendaServico;
 
@@ -57,26 +58,25 @@ public class VendaServicoDao {
      }
  }
 
-    // Método para listar todos os registros de VendaServico relacionados a uma venda específica
-    public List<VendaServico> listarVendaServicosPorIdVenda(int idVenda) {
-        List<VendaServico> vendaServicos = new ArrayList<>();
-        String sql = "SELECT * FROM vendaservico WHERE id_venda = ?";
+// Método para listar todos os serviços relacionados a uma venda específica
+    public List<Servico> listarServicosPorIdVenda(int idVenda) {
+        List<Servico> servicos = new ArrayList<>();
+        String sql = "SELECT s.* FROM Servico s INNER JOIN VendaServico vs ON s.id = vs.id_Servico WHERE vs.id_Venda = ?";
         try (PreparedStatement stmt = conexao.prepareStatement(sql)) {
             stmt.setInt(1, idVenda);
             ResultSet rs = stmt.executeQuery();
             while (rs.next()) {
-                VendaServico vendaServico = new VendaServico();
-                vendaServico.setId(rs.getInt("id"));
-                vendaServico.setId_Venda(rs.getInt("id_venda"));
-                vendaServico.setId_Servico(rs.getInt("id_servico"));
-                vendaServicos.add(vendaServico);
+                Servico servico = new Servico();
+                servico.setId(rs.getInt("id"));
+                servico.setDescricao(rs.getString("descricao"));
+                servico.setPreco(rs.getDouble("preco"));
+                servicos.add(servico);
             }
         } catch (SQLException e) {
-            throw new RuntimeException("Erro ao listar os registros de VendaServico por ID de venda", e);
+            throw new RuntimeException("Erro ao listar os serviços por ID de venda", e);
         }
-        return vendaServicos;
+        return servicos;
     }
-
     private double buscarPrecoServico(int idServico) throws SQLException {
         String sql = "SELECT preco FROM Servico WHERE id = ?";
         try (PreparedStatement stmt = conexao.prepareStatement(sql)) {
