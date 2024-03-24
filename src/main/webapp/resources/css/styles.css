@@ -181,3 +181,27 @@ div.default-page{
 div.default-page>*{
     margin-bottom: 1rem;
 }
+.flexhor{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+}
+.flexhor:last-child{
+    margin-right: 0;
+}
+.flexhor>*{
+    margin-right: 1rem;
+}
+.flexvert{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+input[type="date"] {
+    border: 1px solid #c9c9c9;
+    border-radius: 5px;
+    display: block;
+    height: 35px;
+    margin: 8px 0;
+}

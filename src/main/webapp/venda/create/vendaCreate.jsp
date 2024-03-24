@@ -28,13 +28,18 @@
 <customTag:header/>
 <form name="formVenda" action="submit" >
     <h3>Cliente: </h3>
-    <select title="selectClient" name="selectClient" required>
-        <% for (Cliente cliente : clientes) {%>
-            <option value="<%=cliente.getId()%>"><%=cliente.getNome()+" - "+cliente.getCpf()%></option>
-       <% }%>
-    </select>
-    <a onclick="">Cadastrar Novo Cliente</a>
-    Data da venda: <input type="date" name="data" required value="<%=todayIso%>"}></input>
+    <div class="flexvert">
+        <select title="selectClient" name="selectClient" required>
+            <% for (Cliente cliente : clientes) {%>
+                <option value="<%=cliente.getId()%>"><%=cliente.getNome()+" - "+cliente.getCpf()%></option>
+           <% }%>
+        </select>
+        <a class="button" onclick="">Cadastrar Novo Cliente</a>
+    </div>
+    <div class="flexhor">
+        <b>Data da venda: </b>
+        <input type="date" name="data" required value="<%=todayIso%>"></input>
+    </div>
 
     <h3>Tipo do serviço:</h3>
     <select title="selectService" name="selectService" required>
