@@ -13,9 +13,10 @@ public class ValidPathFilter implements Filter {
             "/", "/index.html", "/error", "/main",
             "/login", "/login/submit", "/logout",
             "/venda", "/venda/create", "/venda/create/submit",
+            "/cliente", "/cliente/create", "/cliente/update", "/cliente/delete",
     };
     public void init(FilterConfig config) throws ServletException {
-    }
+    } 
 
     public void destroy() {
     }

@@ -36,7 +36,7 @@
             <option value="<%=cliente.getId()%>"><%=cliente.getNome()+" - "+cliente.getCpf()%></option>
        <% }%>
     </select>
-    <a onclick="">Cadastrar Novo Cliente</a>
+    <a href="../cliente/create">Cadastrar Novo Cliente</a>
     Data da venda: <input type="date" name="data" required value="<%=todayIso%>"}></input>
 
     <h3>Tipo do serviço:</h3>
