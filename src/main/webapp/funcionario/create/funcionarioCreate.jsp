@@ -9,7 +9,7 @@
 </head>
 <body>
     <h1 class="form-title">Cadastro de Funcionário</h1>
-    <form class="form-container" action="cadastrarFuncionario.jsp" >
+    <form class="form-container" action="/LojaAutoPecas/funcionario/create/submit" >
         <label class="form-label" for="cpf">CPF:</label>
         <input class="form-input" type="text" id="cpf" name="cpf" required>
 

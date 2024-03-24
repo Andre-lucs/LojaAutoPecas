@@ -14,8 +14,12 @@
 </head>
 <body>
     <customTag:header/>
-    <form class="form-container" action="update/submit">
+    <form class="form-container" action="/LojaAutoPecas/funcionario/update/submit">
         <h2 class="form-title">Atualizar Funcionário:</h2>
+
+		<input type="text" name="idFuncionario" readonly
+        					value="<%out.print(funcionario.getId());%>">
+
         <label class="form-label" for="cpf">CPF:</label>
         <input class="form-input" type="text" id="cpf" name="cpf"  value="<%out.print(funcionario.getCpf());%>" required>
 
