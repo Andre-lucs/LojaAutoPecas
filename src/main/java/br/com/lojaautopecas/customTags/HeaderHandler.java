@@ -11,11 +11,12 @@ public class HeaderHandler extends TagSupport {
     @Override
     public int doStartTag() throws JspException {
         JspWriter out = pageContext.getOut();
+        String context = pageContext.getServletContext().getContextPath();
         try {
             out.println("<header>\n" +
                     "        <nav>\n" +
-                    "            <a href=\"main\">Vendas</a>\n" +
-                    "            <a href=\"\">Clientes</a>\n" +
+                    "            <a href=\""+context+"/main\">Vendas</a>\n" +
+                    "            <a href=\"cliente\">Clientes</a>\n" +
                     "            <a href=\"\"><img src=\"./resources/images/user.png\" alt=\"user\"></a>\n" +
                     "            <button>Sair</button>\n" +
                     "        </nav>\n" +

@@ -8,25 +8,21 @@ import javax.servlet.http.*;
 import javax.servlet.annotation.*;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 @WebServlet(urlPatterns = {"/main"})
 public class MainController extends HttpServlet {
-    //private VendaDao vendaDao = new VendaDao();
+    private VendaDao vendaDao = new VendaDao();
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response){
         pageMain(request, response);
     }
 
     private void pageMain(HttpServletRequest request, HttpServletResponse response) {
-        List<Venda> vendaList = new ArrayList<>();//vendaDao.findAll();
-        vendaList.add(new Venda());
-        vendaList.add(new Venda());
-        vendaList.add(new Venda());
-        System.out.println("vendaList");
+        List<Venda> vendaList = vendaDao.listarVendas();
         request.setAttribute("vendas", vendaList);
         RequestDispatcher rd = request.getRequestDispatcher("main/main.jsp");
-
         try {
             rd.forward(request, response);
         } catch (ServletException e) {

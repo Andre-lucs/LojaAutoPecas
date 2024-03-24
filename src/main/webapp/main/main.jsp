@@ -1,12 +1,6 @@
-<%--
-  Created by IntelliJ IDEA.
-  User: andre
-  Date: 22/03/2024
-  Time: 16:40
-  To change this template use File | Settings | File Templates.
---%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib prefix="customTag" uri="../WEB-INF/CustomTags.tld" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ page import="br.com.lojaautopecas.model.Venda"%>
 <%@ page import="java.util.List" %>
 <%@ page import="java.util.ArrayList" %>
@@ -21,32 +15,35 @@
     <link rel="stylesheet" type="text/css" href="resources/css/styles.css"/>
 </head>
 <body>
-    <!--<header>
-        <nav>
-            <a href="main">Vendas</a>
-            <a href="">Clientes</a>
-            <a href=""><img src="./resources/images/user.png" alt="user"></a>
-            <button>Sair</button>
-        </nav>
-    </header>-->
-    <customTag:header></customTag:header>
+    <customTag:header/>
     <div>
+        <!-- se der tempo https://www.w3schools.com/howto/howto_js_sort_table.asp -->
         <table>
-            <thead>
-            <th>
+            <div class="table-top">
                 <b>Tabela de Vendas</b>
                 <a href="venda/create" class="button">Adicionar</a>
-            </th>
+            </div>
+            <thead>
+                <th>ID</th>
+                <th>ID Funcionário</th>
+                <th>ID Cliente</th>
+                <th>Data</th>
+                <th>Valor Total</th>
             </thead>
             <tbody>
             <% for (Venda venda : vendas) {%>
-                <tr>
-                    <td><a href="venda?id=<%="venda.getId()"%>"> <%out.print("venda.getId()etc");%> </a></td>
+                <tr class="clickable" onclick="toVenda(<%=venda.getId()%>)" >
+                        <td><%=(venda.getId())%></td>
+                        <td><%=(venda.getId_Funcionario())%></td>
+                        <td><%=(venda.getId_Cliente())%></td>
+                        <td><%=venda.getData()%></td>
+                        <td><%=venda.getValor_Total()%></td>
                 </tr>
             <% }%>
             </tbody>
         </table>
 
     </div>
+<script type="text/javascript" src="resources/scripts/redirect.js"></script>
 </body>
 </html>
