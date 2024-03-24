@@ -6,7 +6,6 @@ import java.sql.SQLException;
 import br.com.lojaautopecas.model.Cliente;
 import br.com.lojaautopecas.model.Funcionario;
 import br.com.lojaautopecas.model.Veiculo;
-import br.com.lojaautopecas.utils.ManageCookies;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -80,7 +79,6 @@ public class FuncionarioController extends HttpServlet {
 
 	private void pageFuncionario(HttpServletRequest request, HttpServletResponse response) {
 		try {
-			//int id = Integer.parseInt(ManageCookies.getLoginCookie(request));
 			Funcionario funcionario = funcionarioDao.buscarFuncionarioPorId(1);
 			request.setAttribute("funcionario", funcionario);
 
