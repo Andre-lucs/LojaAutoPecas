@@ -98,9 +98,10 @@ public class VendaServicoDao {
 
         vendaDao.subtrairValorTotalVendaServico(venda, precoServico);
 
-        String sql = "DELETE FROM vendaservico WHERE id=?";
+        String sql = "DELETE FROM vendaservico WHERE id_Venda=? and id_Servico=?";
         try (PreparedStatement stmt = conexao.prepareStatement(sql)) {
             stmt.setInt(1, id_venda);
+            stmt.setInt(2, id_servico);
             stmt.executeUpdate();
             System.out.println("Relação Venda-Servico excluída com sucesso!");
         } catch (SQLException e) {

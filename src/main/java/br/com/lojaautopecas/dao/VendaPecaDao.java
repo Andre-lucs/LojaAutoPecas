@@ -103,9 +103,10 @@ public class VendaPecaDao {
         Venda venda = vendaDao.buscarVendaPorId(id_venda);
 
         vendaDao.subtrairValorTotalVendaPeca(venda, precoPeca);
-        String sql = "DELETE FROM vendapeca WHERE id = ?";
+        String sql = "DELETE FROM vendapeca WHERE id_Venda = ? and id_Peca = ?";
         try (PreparedStatement stmt = conexao.prepareStatement(sql)) {
             stmt.setInt(1, id_venda);
+            stmt.setInt(2, id_peca);
             stmt.executeUpdate();
             System.out.println("Relação Venda-Peça deletada com sucesso!");
         } catch (SQLException e) {
