@@ -12,7 +12,9 @@ public class ValidPathFilter implements Filter {
     private final String[] validPaths = {
             "/", "/index.html", "/error", "/main",
             "/login", "/login/submit", "/logout",
-            "/venda", "/venda/create", "/venda/create/submit",
+            "/venda", "/venda/create", "/venda/create/submit", "/venda/delete",
+            "/venda/servico/delete", "/venda/servico/add", "/venda/peca/delete", "/venda/peca/add",
+
     };
     public void init(FilterConfig config) throws ServletException {
     }
