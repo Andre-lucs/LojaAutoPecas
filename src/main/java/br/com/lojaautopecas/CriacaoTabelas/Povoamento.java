@@ -1,8 +1,5 @@
 package br.com.lojaautopecas.CriacaoTabelas;
 
-import java.sql.SQLException;
-import java.util.Date;
-
 import br.com.lojaautopecas.dao.ClienteDao;
 import br.com.lojaautopecas.dao.FuncionarioDao;
 import br.com.lojaautopecas.dao.PecaDao;
@@ -19,6 +16,9 @@ import br.com.lojaautopecas.model.Veiculo;
 import br.com.lojaautopecas.model.Venda;
 import br.com.lojaautopecas.model.VendaPeca;
 import br.com.lojaautopecas.model.VendaServico;
+
+import java.sql.SQLException;
+import java.util.Date;
 
 public class Povoamento {
     public static void main(String[] args) throws SQLException {
@@ -38,6 +38,7 @@ public class Povoamento {
         VendaServicoDao vendaServicoDao = new VendaServicoDao();
         VendaPeca vendaPeca = new VendaPeca();
         VendaPecaDao vendaPecaDao = new VendaPecaDao();
+        int retorno;
 
 
         // Funcionarios
@@ -117,7 +118,7 @@ public class Povoamento {
 
         cliente.setCpf("111.222.333-44");
         cliente.setNome("Maria");
-            cliente.setId_Veiculo(4);
+        cliente.setId_Veiculo(4);
         clienteDao.inserirCliente(cliente);
 
         //Vendas
@@ -125,25 +126,26 @@ public class Povoamento {
         venda.setValor_Total(253.50);
         venda.setId_Cliente(1);
         venda.setId_Funcionario(1);
-        venDao.inserirVenda(venda);
+        retorno= venDao.inserirVenda(venda);
+        System.out.println(retorno);
 
         venda.setData(new Date());
         venda.setValor_Total(33.50);
         venda.setId_Cliente(2);
         venda.setId_Funcionario(1);
-        venDao.inserirVenda(venda);
+        retorno= venDao.inserirVenda(venda);
 
         venda.setData(new Date());
         venda.setValor_Total(150.50);
         venda.setId_Cliente(3);
         venda.setId_Funcionario(4);
-        venDao.inserirVenda(venda);
+        retorno= venDao.inserirVenda(venda);
 
         venda.setData(new Date());
         venda.setValor_Total(150.50);
         venda.setId_Cliente(3);
         venda.setId_Funcionario(2);
-        venDao.inserirVenda(venda);
+        retorno= venDao.inserirVenda(venda);
 
 
         // Serviços
