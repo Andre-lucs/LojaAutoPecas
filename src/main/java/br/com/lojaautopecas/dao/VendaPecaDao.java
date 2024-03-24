@@ -10,6 +10,7 @@ import java.util.List;
 
 import br.com.lojaautopecas.CriacaoTabelas.TabelaVendaPeca;
 import br.com.lojaautopecas.jdbc.DBConnection;
+import br.com.lojaautopecas.model.Venda;
 import br.com.lojaautopecas.model.VendaPeca;
 
 public class VendaPecaDao {
@@ -33,6 +34,15 @@ public class VendaPecaDao {
             TabelaVendaPeca tabelaVendaPeca = new TabelaVendaPeca();
             tabelaVendaPeca.criar();
         }
+        double precoPeca = buscarPrecoPeca(vendaPeca.getId_Peca());
+
+        int id_venda = vendaPeca.getId_Venda();
+
+        VendaDao vendaDao = new VendaDao();
+        Venda venda = vendaDao.buscarVendaPorId(id_venda);
+
+        vendaDao.somarValorTotalVendaPeca(venda, precoPeca);
+
         String sql = "INSERT INTO vendapeca (id_venda, id_peca) VALUES (?, ?)";
         try (PreparedStatement stmt = conexao.prepareStatement(sql)) {
             stmt.setInt(1, vendaPeca.getId_Venda());
@@ -64,30 +74,37 @@ public class VendaPecaDao {
         return vendaPecas;
     }
 
-    // Método para atualizar uma relação Venda-Peça do banco
-    public void atualizarVendaPeca(VendaPeca vendaPeca) {
-        String sql = "UPDATE vendapeca SET id_venda = ?, id_peca = ? WHERE id = ?";
-        try (PreparedStatement stmt = conexao.prepareStatement(sql)) {
-            stmt.setInt(1, vendaPeca.getId_Venda());
-            stmt.setInt(2, vendaPeca.getId_Peca());
-            stmt.setInt(3, vendaPeca.getId());
-            stmt.executeUpdate();
-            System.out.println("Relação Venda-Peça atualizada com sucesso!");
-        } catch (SQLException e) {
-            throw new RuntimeException("Erro ao atualizar a relação Venda-Peça: " + e.getMessage());
-        }
-    }
-
     // Método para deletar uma relação Venda-Peça do banco
-    public void deletarVendaPeca(int id) {
+    public void deletarVendaPeca(int id_venda, int id_peca) throws SQLException {
+        double precoPeca = buscarPrecoPeca(id_peca);
+
+        VendaDao vendaDao = new VendaDao();
+        Venda venda = vendaDao.buscarVendaPorId(id_venda);
+
+        vendaDao.subtrairValorTotalVendaPeca(venda, precoPeca);
         String sql = "DELETE FROM vendapeca WHERE id = ?";
         try (PreparedStatement stmt = conexao.prepareStatement(sql)) {
-            stmt.setInt(1, id);
+            stmt.setInt(1, id_venda);
             stmt.executeUpdate();
             System.out.println("Relação Venda-Peça deletada com sucesso!");
         } catch (SQLException e) {
             throw new RuntimeException("Erro ao deletar a relação Venda-Peça: " + e.getMessage());
         }
     }
+
+    private double buscarPrecoPeca(int idPeca) throws SQLException {
+        String sql = "SELECT preco FROM peca WHERE id = ?";
+        try (PreparedStatement stmt = conexao.prepareStatement(sql)) {
+            stmt.setInt(1, idPeca);
+            ResultSet rs = stmt.executeQuery();
+            if (rs.next()) {
+                return rs.getDouble("preco");
+            } else {
+                throw new IllegalArgumentException("Peça não encontrada com o ID fornecido: " + idPeca);
+            }
+        }
+    }
+
+
 	
 }

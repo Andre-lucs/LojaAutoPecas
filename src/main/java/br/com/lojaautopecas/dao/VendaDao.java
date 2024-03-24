@@ -38,7 +38,7 @@ public class VendaDao {
 	                "VALUES (?, ?, ?, ?)";
 	        try (PreparedStatement stmt = conexao.prepareStatement(sql)) {
 	            stmt.setDate(1, new java.sql.Date (venda.getData().getTime()));
-	            stmt.setDouble(2, venda.getValor_Total());
+	            stmt.setDouble(2, 0);
 	            stmt.setInt(3, venda.getId_Cliente());
 	            stmt.setInt(4, venda.getId_Funcionario());
 	            stmt.executeUpdate();
@@ -134,4 +134,60 @@ public class VendaDao {
 	        }
 	        return null; // Retorna null se nenhuma venda for encontrada com o ID especificado
 	    }
+
+		public void somarValorTotalVendaServico (Venda venda, Double precoServico) {
+			Double valorTotal = venda.getValor_Total() + precoServico;
+
+			String sql = "UPDATE venda SET valor_total = ? WHERE id = ?";
+			try (PreparedStatement stmt = conexao.prepareStatement(sql)) {
+				stmt.setDouble(1, valorTotal);
+				stmt.setInt(2, venda.getId());
+				stmt.executeUpdate();
+				System.out.println("Valor total atualizado com sucesso!");
+			} catch (SQLException e) {
+				throw new RuntimeException("Erro ao atualizar valor: " + e.getMessage());
+			}
+		}
+
+		public void somarValorTotalVendaPeca (Venda venda, Double precoPeca) {
+			Double valorTotal = venda.getValor_Total() + precoPeca;
+
+			String sql = "UPDATE venda SET valor_total = ? WHERE id = ?";
+			try (PreparedStatement stmt = conexao.prepareStatement(sql)) {
+				stmt.setDouble(1, valorTotal);
+				stmt.setInt(2, venda.getId());
+				stmt.executeUpdate();
+				System.out.println("Valor total atualizado com sucesso!");
+			} catch (SQLException e) {
+				throw new RuntimeException("Erro ao atualizar valor: " + e.getMessage());
+			}
+		}
+
+		public void subtrairValorTotalVendaServico (Venda venda, Double precoServico) {
+			Double valorTotal = venda.getValor_Total() - precoServico;
+
+			String sql = "UPDATE venda SET valor_total = ? WHERE id = ?";
+			try (PreparedStatement stmt = conexao.prepareStatement(sql)) {
+				stmt.setDouble(1, valorTotal);
+				stmt.setInt(2, venda.getId());
+				stmt.executeUpdate();
+				System.out.println("Valor total atualizado com sucesso!");
+			} catch (SQLException e) {
+				throw new RuntimeException("Erro ao atualizar valor: " + e.getMessage());
+			}
+		}
+
+		public void subtrairValorTotalVendaPeca (Venda venda, Double precoPeca) {
+			Double valorTotal = venda.getValor_Total() - precoPeca;
+
+			String sql = "UPDATE venda SET valor_total = ? WHERE id = ?";
+			try (PreparedStatement stmt = conexao.prepareStatement(sql)) {
+				stmt.setDouble(1, valorTotal);
+				stmt.setInt(2, venda.getId());
+				stmt.executeUpdate();
+				System.out.println("Valor total atualizado com sucesso!");
+			} catch (SQLException e) {
+				throw new RuntimeException("Erro ao atualizar valor: " + e.getMessage());
+			}
+		}
 }

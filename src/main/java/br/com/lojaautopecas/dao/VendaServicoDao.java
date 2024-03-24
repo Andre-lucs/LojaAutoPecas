@@ -10,6 +10,7 @@ import java.util.List;
 
 import br.com.lojaautopecas.CriacaoTabelas.TabelaVendaServico;
 import br.com.lojaautopecas.jdbc.DBConnection;
+import br.com.lojaautopecas.model.Venda;
 import br.com.lojaautopecas.model.VendaServico;
 
 public class VendaServicoDao {
@@ -30,21 +31,31 @@ public class VendaServicoDao {
     
     
  // Método para criar uma relação Venda-Servico no banco
-    public void inserirVendaServico(VendaServico vendaServico) throws SQLException {
-    	if (!tabelaVendaServicoExiste()) {
-            TabelaVendaServico tabelaVendaServico = new TabelaVendaServico();
-            tabelaVendaServico.criar();
-        }
-        String sql = "INSERT INTO vendaservico (id_venda, id_servico) VALUES (?, ?)";
-        try (PreparedStatement stmt = conexao.prepareStatement(sql)) {
-            stmt.setInt(1, vendaServico.getId_Venda());
-            stmt.setInt(2, vendaServico.getId_Servico());
-            stmt.executeUpdate();
-            System.out.println("Relação Venda-Servico criada com sucesso!");
-        } catch (SQLException e) {
-            throw new RuntimeException("Erro ao criar a relação Venda-Servico: " + e.getMessage());
-        }
-    }
+ public void inserirVendaServico(VendaServico vendaServico) throws SQLException {
+     if (!tabelaVendaServicoExiste()) {
+         TabelaVendaServico tabelaVendaServico = new TabelaVendaServico();
+         tabelaVendaServico.criar();
+     }
+     // Buscar o preço do serviço pelo ID do serviço
+     double precoServico = buscarPrecoServico(vendaServico.getId_Servico());
+
+     int id_venda = vendaServico.getId_Venda();
+
+     VendaDao vendaDao = new VendaDao();
+     Venda venda = vendaDao.buscarVendaPorId(id_venda);
+
+     vendaDao.somarValorTotalVendaServico(venda, precoServico);
+
+     String sql = "INSERT INTO vendaservico (id_venda, id_servico) VALUES (?, ?)";
+     try (PreparedStatement stmt = conexao.prepareStatement(sql)) {
+         stmt.setInt(1, vendaServico.getId_Venda());
+         stmt.setInt(2, vendaServico.getId_Servico());
+         stmt.executeUpdate();
+         System.out.println("Relação Venda-Servico criada com sucesso!");
+     } catch (SQLException e) {
+         throw new RuntimeException("Erro ao criar a relação Venda-Servico: " + e.getMessage());
+     }
+ }
 
     // Método para listar todos os registros de VendaServico relacionados a uma venda específica
     public List<VendaServico> listarVendaServicosPorIdVenda(int idVenda) {
@@ -66,25 +77,31 @@ public class VendaServicoDao {
         return vendaServicos;
     }
 
-    // Método para atualizar uma relação Venda-Servico no banco
-    public void atualizarVendaServico(int id, VendaServico novosDadosVendaServico) {
-        String sql = "UPDATE vendaservico SET id_venda=?, id_servico=? WHERE id=?";
+    private double buscarPrecoServico(int idServico) throws SQLException {
+        String sql = "SELECT preco FROM Servico WHERE id = ?";
         try (PreparedStatement stmt = conexao.prepareStatement(sql)) {
-            stmt.setInt(1, novosDadosVendaServico.getId_Venda());
-            stmt.setInt(2, novosDadosVendaServico.getId_Servico());
-            stmt.setInt(3, id);
-            stmt.executeUpdate();
-            System.out.println("Relação Venda-Servico atualizada com sucesso!");
-        } catch (SQLException e) {
-            throw new RuntimeException("Erro ao atualizar a relação Venda-Servico: " + e.getMessage());
+            stmt.setInt(1, idServico);
+            ResultSet rs = stmt.executeQuery();
+            if (rs.next()) {
+                return rs.getDouble("preco");
+            } else {
+                throw new IllegalArgumentException("Serviço não encontrado com o ID fornecido: " + idServico);
+            }
         }
     }
 
     // Método para deletar uma relação Venda-Servico do banco
-    public void deletarVendaServico(int id) {
+    public void deletarVendaServico(int id_venda, int id_servico) throws SQLException {
+        double precoServico = buscarPrecoServico(id_servico);
+
+        VendaDao vendaDao = new VendaDao();
+        Venda venda = vendaDao.buscarVendaPorId(id_venda);
+
+        vendaDao.subtrairValorTotalVendaServico(venda, precoServico);
+
         String sql = "DELETE FROM vendaservico WHERE id=?";
         try (PreparedStatement stmt = conexao.prepareStatement(sql)) {
-            stmt.setInt(1, id);
+            stmt.setInt(1, id_venda);
             stmt.executeUpdate();
             System.out.println("Relação Venda-Servico excluída com sucesso!");
         } catch (SQLException e) {
