@@ -123,3 +123,45 @@ a {
 a:hover {
     text-decoration: underline;
 }
+
+
+#perfil {
+    text-align: center;
+}
+
+#perfil main {
+    margin-top: 20px;
+}
+
+#perfil .foto {
+    width: 150px;
+    height: 150px;
+    background-color: #ccc;
+    border-radius: 50%;
+    margin: 0 auto 20px; /* Centraliza horizontalmente */
+}
+
+#perfil span {
+    font-size: 18px;
+    font-weight: bold;
+    color: #333;
+}
+
+#perfil ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+#perfil ul li {
+    margin-bottom: 10px;
+}
+
+#perfil a {
+    color: white;
+}
+
+#perfil a:hover {
+    text-decoration: underline;
+    color: #0056b3;
+}

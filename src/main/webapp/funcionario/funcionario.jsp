@@ -9,19 +9,22 @@
 <head>
 <meta charset="utf-8">
 <title>Perfil</title>
+<link rel="stylesheet" type="text/css" href="resources/css/styles.css"/>
 </head>
 <body>
     <customTag:header/>
 	<main>
-		<div>
+		<div id="perfil">
 			<div class="foto"></div>
 			 <span><%=funcionario.getNome()%></span>
 			 <ul>
 			 	<li>CPF: <%=funcionario.getCpf()%></li>
 			 	<li>Cargo: <%=funcionario.getCargo()%></li>
 			 </ul>
-			 <a href="funcionario/update">Atualizar</a>
-			 <a href="funcionario/delete">Excluir</a>
+			 
+			 <a href="funcionario/update" class="button">Atualizar</a>
+            <a href="funcionario/delete" class="button delete-button">Excluir</a>
+			
 		</div>
 	</main>
 </body>
