@@ -17,15 +17,14 @@ import br.com.lojaautopecas.model.Veiculo;
 
 
 
-@WebServlet(urlPatterns = {"/cliente", "/cliente/create", "/cliente/update", "/cliente/delete"})
+@WebServlet(urlPatterns = {"/cliente", "/cliente/create","/cliente/create/submit", "/cliente/update", "/cliente/delete"})
 public class ClienteController extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	private ClienteDao clienteDao = new ClienteDao();
 	private VeiculoDao veiculoDao = new VeiculoDao();
    
     public ClienteController() throws SQLException {
-      
-        
+
     }
 
 	
@@ -39,7 +38,11 @@ public class ClienteController extends HttpServlet {
         }else if(action.equals("/cliente/create")){
             pageClienteCreate(request, response);
         } else if (action.equals("/cliente/create/submit")) {
-            clienteCreate(request, response);
+            try {
+                clienteCreate(request, response);
+            } catch (SQLException e) {
+                throw new RuntimeException(e);
+            }
         } else if(action.equals("/cliente/update")) {
         	pageClienteUpdate(request, response);
         } else if (action.equals("/cliente/update/submit")) {
@@ -49,25 +52,22 @@ public class ClienteController extends HttpServlet {
         }
 	}
 
-	 private void clienteCreate(HttpServletRequest request, HttpServletResponse response) {
+	 private void clienteCreate(HttpServletRequest request, HttpServletResponse response) throws SQLException {
 	        Cliente cliente = new Cliente();
 	        Veiculo veiculo = new Veiculo();
 	        
-	        cliente.setNome(request.getParameter("name"));
+	        cliente.setNome(request.getParameter("nome"));
 	        cliente.setCpf(request.getParameter("cpf"));
 	        
 	        veiculo.setAno(Integer.parseInt(request.getParameter("ano")));
 	        veiculo.setMarca(request.getParameter("marca"));
 	        veiculo.setModelo(request.getParameter("modelo"));
-	        
+
+			Veiculo veiculoCreated = veiculoDao.inserirVeiculo(veiculo);
+			cliente.setId_Veiculo(veiculoCreated.getId());
+			clienteDao.inserirCliente(cliente);
 	        try {
-				clienteDao.inserirCliente(cliente);
-			} catch (SQLException e) {
-				e.printStackTrace();
-			}
-	        
-	        try {
-	            request.getRequestDispatcher("cliente").forward(request,response);
+	            request.getRequestDispatcher("../cliente").forward(request,response);
 	        } catch (ServletException e) {
 	            throw new RuntimeException(e);
 	        } catch (IOException e) {
@@ -102,10 +102,12 @@ public class ClienteController extends HttpServlet {
 
 	  private void pageClienteUpdate (HttpServletRequest request, HttpServletResponse response) {
 	        try {
+				System.out.println("passei no update");
 	        	int id = Integer.parseInt(request.getParameter("id"));
 	        	Cliente cliente = clienteDao.buscarClientePorId(id);
 	        	Veiculo veiculo = veiculoDao.buscarVeiculoPorId(cliente.getId());
-	        	
+
+				System.out.println(cliente.getNome());
 	        	request.setAttribute("cliente", cliente);
 	        	request.setAttribute("veiculo", veiculo);
 	        	
@@ -136,7 +138,7 @@ public class ClienteController extends HttpServlet {
 	        veiculoDao.atualizarVeiculo(idVeiculo, veiculo);
 	        
 	        try {
-	            request.getRequestDispatcher("cliente").forward(request,response);
+	            request.getRequestDispatcher("../cliente").forward(request,response);
 	        } catch (ServletException e) {
 	            throw new RuntimeException(e);
 	        } catch (IOException e) {
@@ -148,7 +150,7 @@ public class ClienteController extends HttpServlet {
 	        try {
 	            int id = Integer.parseInt(request.getParameter("id"));
 	            clienteDao.deletarCliente(id);
-	            request.getRequestDispatcher("cliente/cliente.jsp").forward(request,response);
+	            request.getRequestDispatcher("../cliente.jsp").forward(request,response);
 	            
 	        } catch (IOException e) {
 	            throw new RuntimeException(e);
@@ -156,4 +158,5 @@ public class ClienteController extends HttpServlet {
 	            throw new RuntimeException(e);
 	        }
 	    }
+
 }

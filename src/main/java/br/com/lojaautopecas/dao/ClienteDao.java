@@ -24,6 +24,8 @@ public class ClienteDao {
 
     public void inserirCliente(Cliente cliente) throws SQLException {
 
+        System.out.println(cliente.getNome());
+
         if (!tabelaClienteExiste()) {
             TabelaCliente tabelaCliente = new TabelaCliente();
             tabelaCliente.criar();
@@ -72,6 +74,8 @@ public class ClienteDao {
     }
 
     public void atualizarCliente(int id, Cliente novosDadosCliente) {
+
+        System.out.println(novosDadosCliente.getNome());
         if (buscarClientePorId(id) != null) {
             String sql = "UPDATE cliente SET cpf=?, nome=?, id_veiculo=? WHERE id=?";
             try {
