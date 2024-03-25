@@ -22,7 +22,7 @@
 			 	<li>Cargo: <%=funcionario.getCargo()%></li>
 			 </ul>
 			 
-			 <a href="funcionario/update" class="button">Atualizar</a>
+			  <a href="funcionario/update?id=<%=funcionario.getId()%>">Atualizar</a>
             <a href="funcionario/delete" class="button delete-button">Excluir</a>
 			
 		</div>
