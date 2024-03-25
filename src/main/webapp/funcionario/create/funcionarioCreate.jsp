@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=utf-8"
     pageEncoding="utf-8"%>
+    <%@ taglib prefix="customTag" uri="../../WEB-INF/CustomTags.tld" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -8,8 +9,11 @@
 <link rel="stylesheet" type="text/css" href="../resources/css/styles.css"/>
 </head>
 <body>
-    <h1 class="form-title">Cadastro de Funcionário</h1>
+    <customTag:header/>
+
     <form class="form-container" action="/LojaAutoPecas/funcionario/create/submit" >
+
+        <h2>Cadastro de Funcionário</h2
         <label class="form-label" for="cpf">CPF:</label>
         <input class="form-input" type="text" id="cpf" name="cpf" required>
 
@@ -22,7 +26,7 @@
         <label class="form-label" for="senha">Senha:</label>
         <input class="form-input" type="password" id="senha" name="senha" required>
 
-        <input class="form-button" type="submit" value="Cadastrar">
+        <input class="form-button button" type="submit" value="Cadastrar">
     </form>
 </body>
 </html>

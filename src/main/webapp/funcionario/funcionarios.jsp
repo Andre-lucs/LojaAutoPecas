@@ -29,7 +29,7 @@
             <td><%= funcionario.getCpf() %></td>
             <td><%= funcionario.getNome() %></td>
             <td><%= funcionario.getCargo() %></td>
-            <td>
+            <td class="flexhor flexend">
                 <a href="funcionario/update?id=<%=funcionario.getId() %>" class="button">Atualizar</a>
                 <a onclick="confirmAction('deletar este funcionário', 'funcionario/delete?id=<%=funcionario.getId()%>')" class="button delete-button">Excluir</a>
             </td>

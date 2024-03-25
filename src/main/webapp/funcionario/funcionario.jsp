@@ -22,10 +22,11 @@
 			 	<li>Cargo: <%=funcionario.getCargo()%></li>
 			 </ul>
 			 
-			  <a href="funcionario/update?id=<%=funcionario.getId()%>">Atualizar</a>
-            <a href="funcionario/delete" class="button delete-button">Excluir</a>
+			  <a class="button" href="funcionario/update?id=<%=funcionario.getId()%>">Atualizar</a>
+            <a onclick="confirmAction('exclusão de sua conta no sistema permanentemente', 'funcionario/delete?deleteSelf=true&id=<%=funcionario.getId()%>')" class="button delete-button">Excluir</a>
 			
 		</div>
 	</main>
+	<script type="text/javascript" src="resources/scripts/redirect.js"></script>
 </body>
 </html>

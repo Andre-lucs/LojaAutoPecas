@@ -1,5 +1,5 @@
 <%@ page language="java" contentType="text/html; charset=utf-8"
-    pageEncoding="ISO-8859-1"%>
+    pageEncoding="utf-8"%>
 
 <%@page import="br.com.lojaautopecas.model.Funcionario" %>
 <%@ taglib prefix="customTag" uri="../../WEB-INF/CustomTags.tld" %>
