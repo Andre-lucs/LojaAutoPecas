@@ -14,6 +14,15 @@ table {
     margin-bottom: 20px;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
 }
+.table-top{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+}
+.table-top b{
+    font-size: 1.5em;
+}
 
 th, td {
     border: 1px solid #ddd;
@@ -24,31 +33,16 @@ th {
     background-color: #f2f2f2;
 }
 
-/* Estilo para os botões */
-.button {
-    display: inline-block;
-    padding: 10px 20px;
-    text-decoration: none;
-    background-color: #007bff;
-    color: white;
-    border: none;
-    border-radius: 4px;
-    cursor: pointer;
-    transition: background-color 0.3s;
-    margin: 10px;
-}
-
-.button:hover {
-    background-color: #0056b3;
-}
-
 /* Estilo para o botão de exclusão */
-.delete-button {
+.button.delete-button {
     background-color: #dc3545;
+    scale: 1;
+    transition: all linear 0.1s;
 }
 
-.delete-button:hover {
+.button.delete-button:hover {
     background-color: #c82333;
+    scale: 0.8;
 }
 
 
@@ -60,6 +54,16 @@ form {
     border-radius: 8px;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
     background-color: #fff;
+}
+form.hidden{
+    max-width: 0;
+    margin: 0;
+    padding: 0;
+    border: none;
+    border-radius: 0;
+    box-shadow: none;
+    background-color: transparent;
+    display: none;
 }
 
 /* Estilo para os títulos */
@@ -97,6 +101,7 @@ select {
     border-radius: 4px;
     cursor: pointer;
     transition: background-color 0.3s;
+    margin: 10px;
 }
 
 .button:hover {
@@ -114,6 +119,101 @@ select {
     justify-content: space-between;
     align-items: center;
 }
+.flexend{
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+}
+.flexcenter{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+div.info{
+    display: flex;
+    flex-direction: row;
+    padding: 20px;
+    background-color: #f5f5f5;
+    justify-content: center;
+    gap: 5rem;
+    align-items: center;
+    border-collapse: collapse;
+
+    margin: 2rem 0;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+.base-grid {  display: grid;
+    display: grid;
+    grid-auto-rows: 1fr;
+    grid-template-columns: 0.5fr 1.2fr 1.3fr;
+    grid-template-rows: 0.6fr 1.2fr 1.2fr;
+    gap: 0px 0px;
+    grid-template-areas:
+    ". . ."
+    "client client client"
+    "functionary functionary functionary";
+    padding: 1rem;
+    background-color: rgba(0, 0, 0, 0.15);
+    box-shadow: 0 0 5px 10px rgba(0, 0, 0, 0.15);
+    width: 40%;
+}
+
+.base-grid > * {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: center;
+}
+.base-grid > * *:first-child {
+    font-size: 1.5em;
+    margin: 5px 0px;
+}
+.base-grid > * * {
+    margin-left: 1rem;
+}
+
+.base-grid .client { grid-area: client; }
+
+.base-grid .functionary { grid-area: functionary; }
+
+.clickable{
+    cursor: pointer;
+    transition: all .1s ease-in-out;
+}
+.clickable:hover{
+    background-color: #444;
+    color: white;
+    border: 1rem solid #444;
+    border-left: 1px;
+    border-right: 1px;
+    border-radius: 2rem;
+}
+header{
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-end;
+    align-items: center;
+}
+header>nav {
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-end;
+    align-items: center;
+    padding: 20px;
+    width: fit-content;
+
+    background-color: #f5f5f5;
+    border-bottom: 1px solid #ddd;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+header nav>a{
+    margin: 0px 20px;
+    text-decoration: none;
+    color: #007bff;
+    font-weight: bold;
+}
 
 a {
     text-decoration: none;
@@ -127,6 +227,7 @@ a:hover {
 
 #perfil {
     text-align: center;
+    margin-top: 5rem;
 }
 
 #perfil main {
@@ -164,4 +265,12 @@ a:hover {
 #perfil a:hover {
     text-decoration: underline;
     color: #0056b3;
+}
+
+input[value="Login"]{
+    background-color: #007bff;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    padding: 10px 20px;
 }

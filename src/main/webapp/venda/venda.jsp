@@ -27,31 +27,31 @@
     <div class="info">
         <div>
             <h2>Informações: </h2>
-            <button onclick="confirmAction('deletar esta venda', 'venda/delete?id=<%=venda.getId()%>')" class="delete-button">Excluir</button>
+            <button class="button delete-button" onclick="confirmAction('deletar esta venda', 'venda/delete?id=<%=venda.getId()%>')" class="delete-button">Excluir venda</button>
         </div>
-        <div>
+        <div class="base-grid">
             <b>ID: <%=venda.getId()%></b>
-            <div>
-                <h3>Cliente:</h3>
+            <b>Data: <%=venda.getData()%></b>
+            <b>Valor Total: <%=venda.getValor_Total()%></b>
+            <div class="client">
+                <b>Cliente:</b>
                 <b>Nome: <%=cliente.getNome()%></b>
-                <b>Nome: <%=cliente.getCpf()%></b>
+                <b>CPF: <%=cliente.getCpf()%></b>
             </div>
-            <div>
-                <h3>Funcionário:</h3>
+            <div class="functionary">
+                <b>Funcionário:</b>
                 <b>Nome: <%=funcionario.getNome()%></b>
                 <b>CPF: <%=funcionario.getCpf()%></b>
             </div>
-            <b>Data: <%=venda.getData()%></b>
-            <b>Valor Total: <%=venda.getValor_Total()%></b>
         </div>
     </div>
     <div id="venda-servicos">
         <div>
             <table>
                 <div class="table-top">
-                    <b>Serviços</b>
-                    <div class="flexhor">
-                        <form action="venda/servico/add">
+                    <h2>Serviços:</h2>
+                    <div class="flexhor flexend">
+                        <form class="hidden" action="venda/servico/add">
                             <input type="hidden" name="vId" value="<%=venda.getId()%>"/>
                             <label for="add-servico-venda">
                                 Adicionar um serviço para a venda:
@@ -74,12 +74,12 @@
                 </thead>
                 <tbody>
                 <% for(Servico servico : servicos) { %>
-                <tr>
+                <tr class="lastcolcenter">
                     <td><%=servico.getId()%></td>
                     <td><%=servico.getDescricao()%></td>
                     <td><%=servico.getPreco()%></td>
-                    <td>
-                        <a class="button" href="venda/servico/delete?sid=<%=servico.getId()%>&vid=<%=venda.getId()%>">Deletar</a>
+                    <td class="flexhor flexend">
+                        <a class="button delete-button" href="venda/servico/delete?sid=<%=servico.getId()%>&vid=<%=venda.getId()%>">Deletar</a>
                     </td>
                 </tr>
                 <% }%>
@@ -91,14 +91,14 @@
         <div>
             <table>
                 <div class="table-top">
-                    <b>Peças</b>
-                    <div class="flexhor">
-                        <form action="venda/peca/add">
+                    <h2>Peças:</h2>
+                    <div class="flexhor flexend">
+                        <form class="hidden" action="venda/peca/add">
                             <input type="hidden" name="vId" value="<%=venda.getId()%>"/>
                             <label for="add-peca-venda">
                                 Adicionar um peça para a venda:
                                 <select id="add-peca-venda" name="pId" required>
-                                    <option value="">--Selecione a peça desejado--</option>
+                                    <option value="">--Selecione a peça desejada--</option>
                                     <% for(Peca peca : possibleNewPecas) { %>
                                     <option value="<%=peca.getId()%>"><%=peca.getNome()+" | "+peca.getPreco()%></option>
                                     <% }%>
@@ -120,8 +120,8 @@
                     <td><%=peca.getId()%></td>
                     <td><%=peca.getNome()%></td>
                     <td><%=peca.getPreco()%></td>
-                    <td>
-                        <a class="button" href="venda/peca/delete?pid=<%=peca.getId()%>&vid=<%=venda.getId()%>">Deletar</a>
+                    <td class="flexhor flexend">
+                        <a class="button delete-button" href="venda/peca/delete?pid=<%=peca.getId()%>&vid=<%=venda.getId()%>">Deletar</a>
                     </td>
                 </tr>
                 <% }%>
