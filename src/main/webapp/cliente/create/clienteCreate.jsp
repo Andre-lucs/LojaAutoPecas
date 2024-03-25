@@ -23,7 +23,7 @@
     <input type="text" id="marca" name="marca" required>
     <label for="ano">Ano:</label>
     <input type="number" id="ano" name="ano" required>
-    <input type="submit" value="Enviar">
+    <input type="submit" class="button" value="Enviar">
 </form>
 </body>
 </html>

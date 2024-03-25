@@ -12,6 +12,7 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import br.com.lojaautopecas.dao.FuncionarioDao;
 
@@ -94,8 +95,12 @@ public class FuncionarioController extends HttpServlet {
 	}
 
 	private void pageFuncionario(HttpServletRequest request, HttpServletResponse response) {
+
+		HttpSession session =  request.getSession(false);
+		String id = ""+session.getAttribute("login");
+
 		try {
-			Funcionario funcionario = funcionarioDao.buscarFuncionarioPorId(1);
+			Funcionario funcionario = funcionarioDao.buscarFuncionarioPorId(Integer.parseInt(id));
 			request.setAttribute("funcionario", funcionario);
 
 			request.getRequestDispatcher("funcionario/funcionario.jsp").forward(request,response);
@@ -147,13 +152,17 @@ public class FuncionarioController extends HttpServlet {
 	private void funcionarioDelete(HttpServletRequest request, HttpServletResponse response) {
 		try {
 			int id = Integer.parseInt(request.getParameter("id"));
+			boolean deletSelf = Boolean.parseBoolean(request.getParameter("deleteSelf"));
 			System.out.println(id);
-			funcionarioDao.deletarFuncionario(id);
-
-			String context = getServletContext().getContextPath();
-
-			response.sendRedirect(context+"/funcionarios");
-
+			if (deletSelf) {
+				funcionarioDao.deletarFuncionario(id);
+                String context = getServletContext().getContextPath();
+                response.sendRedirect(context+"/logout");
+			} else {
+				funcionarioDao.deletarFuncionario(id);
+				String context = getServletContext().getContextPath();
+				response.sendRedirect(context+"/funcionarios");
+			}
 		} catch (IOException e) {
 			throw new RuntimeException(e);
 		}

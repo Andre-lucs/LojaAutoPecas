@@ -14,7 +14,7 @@ import java.text.SimpleDateFormat;
 import java.util.List;
 import java.util.stream.Collectors;
 
-@WebServlet(urlPatterns = {"/venda", "/venda/create", "/venda/create/submit",
+@WebServlet(urlPatterns = {"/venda", "/venda/create", "/venda/delete","/venda/create/submit",
         "/venda/servico/delete", "/venda/servico/add",
         "/venda/peca/delete", "/venda/peca/add",
 })
@@ -37,7 +37,9 @@ public class VendaController extends HttpServlet {
             pageVenda(request, response);
         }else if(action.equals("/venda/create")){
             pageVendaCreate(request, response);
-        } else if (action.equals("/venda/create/submit")) {
+        } else if (action.equals("/venda/delete")) {
+            pageDelete(request, response);
+        }else if (action.equals("/venda/create/submit")) {
             vendaCreate(request, response);
         } else if (action.equals("/venda/servico/delete")) {
             deleteServicoFromVenda(request, response);
@@ -47,6 +49,16 @@ public class VendaController extends HttpServlet {
             deletePecaFromVenda(request, response);
         } else if (action.equals("/venda/peca/add")) {
             addPecaToVenda(request, response);
+        }
+    }
+
+    private void pageDelete(HttpServletRequest request, HttpServletResponse response) {
+        int vid = Integer.parseInt(request.getParameter("id"));
+        vendaDao.deletarVenda(vid);
+        try {
+            response.sendRedirect(getServletContext().getContextPath()+"/main");
+        } catch (IOException e) {
+            throw new RuntimeException(e);
         }
     }
 
@@ -119,18 +131,16 @@ public class VendaController extends HttpServlet {
             Date dataSql = new Date(formatador.parse(request.getParameter("data")).getTime());
             venda.setData(dataSql);
             HttpSession session = request.getSession(false);
-
-            venda.setId_Funcionario(Integer.parseInt((String) session.getAttribute("login")));
+            venda.setId_Funcionario((Integer) session.getAttribute("login"));
             int vendaid = vendaDao.inserirVenda(venda);
             if(vendaid != -1){
                 DBaddServicoToVenda(vendaid, Integer.parseInt(request.getParameter("selectServico")));
                 DBaddPecaToVenda(vendaid, Integer.parseInt(request.getParameter("selectPeca")));
-                request.getRequestDispatcher("venda?id="+vendaid).forward(request,response);
+                System.out.println("criou");
+                response.sendRedirect(getServletContext().getContextPath()+"/venda?id="+vendaid);
             }else{
                 response.sendError(HttpServletResponse.SC_BAD_REQUEST);
             }
-        } catch (ServletException e) {
-            throw new RuntimeException(e);
         } catch (IOException e) {
             throw new RuntimeException(e);
         } catch (ParseException e) {

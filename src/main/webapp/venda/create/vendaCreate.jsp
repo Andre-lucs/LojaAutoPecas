@@ -41,7 +41,7 @@
         <input class="form-input" type="date" name="data" required value="<%=todayIso%>"></input>
     </div>
     <h3>Tipo do serviço:</h3>
-    <select class="form-select" title="selectService" name="selectService" required>
+    <select class="form-select" title="selectService" name="selectServico" required>
         <% for (Servico servico : servicos) {%>
         <option value="<%=servico.getId()%>"><%=servico.getDescricao()%></option>
         <% }%>
