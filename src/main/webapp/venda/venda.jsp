@@ -32,7 +32,7 @@
             </div>
 
             <div class="info-section">
-                <span>ID:<%=venda.getId()%></span>
+                <span><strong>ID:</strong> <%=venda.getId()%></span>
                 <span><strong>Data:</strong> <%=venda.getData()%></span>
                 <span><strong>Valor total:</strong> <%=venda.getValor_Total()%></span>
             </div>
